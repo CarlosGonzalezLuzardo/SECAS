@@ -1,0 +1,30 @@
+
+.header{
+    text-align: center;
+}
+
+table{
+    height: 8em;
+}
+
+.login_form{
+    text-align: center;
+}
+
+.top_form{
+    margin-top: 2em;
+}
+
+.registration-table{
+    height: 25em;
+}
+
+.submit{
+    margin-top: 2em;  
+}
+
+.user-name{
+    font-weight: bold;
+    font-size: 3em;
+    color: #0778fc;
+}

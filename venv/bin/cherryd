@@ -1,0 +1,6 @@
+#!/home/alejandro/Proyectos/SECAS/Internals/derimanfranco/py-multifactor/venv/bin/python
+
+import cherrypy.daemon
+
+if __name__ == '__main__':
+    cherrypy.daemon.run()
