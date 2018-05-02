@@ -1,4 +1,3 @@
-
 from oic.utils.authn.user import UserAuthnMethod
 
 from oic.utils.http_util import *
@@ -49,7 +48,7 @@ class recovery_module:
         return resp
     # //---------------------------------------------------------
 
-    def show_question(self):
+    def show_question(self,url):
         """
         Returns the secret question for the given user
         :param username: Username given by the user
@@ -65,6 +64,7 @@ class recovery_module:
                 'question':'Question: ',
                 'question_str':question_str,
                 'submit_text':'Submit',
+                'url': url
             }
 
 
@@ -77,14 +77,14 @@ class recovery_module:
         # return UserManager._read_lostqstn(username)
         # return 'have you lost your marbles?'
 
-    def check_answer(self,answer):
+    def check_answer(self,answer,url):
         """
         Checks if the answer is correct
         :param username: Username given by the user
         :param answer: Answer to the question
         :return:
         """
-        resp = Response("OK")
+        resp = Response("Username not found")
         try:
             # question_str = UserManager.verify_lostpwd(self.username,answer)
 
@@ -95,6 +95,7 @@ class recovery_module:
                     'password_title':'New password: ',
                     'newpassword_title':'New password: ',
                     'submit_text':'Submit',
+                    'url': url
                 }
 
                 mako_template = LOOKUP.get_template(self.mako_template3)
@@ -103,7 +104,7 @@ class recovery_module:
             resp = BadRequest("Username not found")
         return resp
 
-    def update_password(self,newpassword):
+    def update_password(self,newpassword, url):
         """
         Updates the password
         :param username: Username given by the user
@@ -130,7 +131,8 @@ class recovery_module:
             template_args = {
                 'username': self.username,
                 'totp_secret': totp_secret,
-                'qr_blob': qr_code.png_as_base64_str(scale=5)
+                'qr_blob': qr_code.png_as_base64_str(scale=5),
+                'home_uri': url
             }
 
             mako_template = LOOKUP.get_template('modify_totp.mako')

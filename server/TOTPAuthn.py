@@ -21,7 +21,6 @@ from oic.utils.http_util import InvalidCookieSign
 from oic.utils.http_util import SeeOther
 from oic.utils.http_util import Unauthorized
 
-
 LOC = {
     "en": {
         "title": "User log in",
@@ -38,11 +37,12 @@ LOC = {
     }
 }
 
-class TOTPAuthn(UserAuthnMethod):
 
+class TOTPAuthn(UserAuthnMethod):
     param_map = {"as_user": "login", "acr_values": "acr",
                  "policy_uri": "policy_uri", "logo_uri": "logo_uri",
                  "tos_uri": "tos_uri", "query": "query"}
+
     #
     # def __init__(self, srv, get_totp_secret_key, template_lookup, return_to="", verification_endpoints=None):
     #     UserAuthnMethod.__init__(self, srv)
@@ -66,15 +66,14 @@ class TOTPAuthn(UserAuthnMethod):
         self.template_lookup = template_lookup
         self.get_totp_secret_key = get_totp_secret_key
         self.return_to = return_to
-        #if verification_endpoints != None:
+        # if verification_endpoints != None:
         #    self.return_to = verification_endpoints[0]
         self.verification_endpoints = verification_endpoints or ["verify"]
         if templ_arg_func:
             self.templ_arg_func = templ_arg_func
         else:
             self.templ_arg_func = self.template_args
-        print("RETURN_TO: ",self.return_to)
-        
+
     def template_args(self, end_point_index=0, **kwargs):
         """
         Method to override if necessary, dependent on the page layout
@@ -82,16 +81,16 @@ class TOTPAuthn(UserAuthnMethod):
         :param kwargs:
         :return: dictionary of parameters used to build the Authn page
         """
-        
-        #print("KWARGS: ",kwargs)
+
+        print("KWARGSTOT: ", kwargs)
 
         try:
             action = kwargs["action"]
         except KeyError:
             action = self.verification_endpoints[end_point_index]
 
-        argv = {"password": "", "action": action}
-
+        print("MANOLOOOOOOO: ", parse_qs(kwargs["request"])['url'][0])
+        argv = {"password": "", "action": action, "url": parse_qs(kwargs["request"])['url'][0]}
 
         for fro, to in self.param_map.items():
             try:
@@ -124,12 +123,10 @@ class TOTPAuthn(UserAuthnMethod):
                 'form_action': self.verification_endpoints[end_point_index],
                 'username': parse_qs(kwargs["request"])["login"][0]
             })
-            #print("KWARGS2: ",kwargs)
+            # print("KWARGS2: ",kwargs)
         except KeyError:
-            print("KWARGS3: ",kwargs)
-        print('ARGV-TOT: ',argv)
+            print("KWARGS: ", kwargs)
         return argv
-
 
     def __call__(self, cookie=None, end_point_index=0, **kwargs):
         """
@@ -144,7 +141,6 @@ class TOTPAuthn(UserAuthnMethod):
         resp.message = mako_template_engine.render(**template_args).decode("utf-8")
 
         return resp
-
 
     def verify(self, request, **kwargs):
         """
@@ -166,7 +162,7 @@ class TOTPAuthn(UserAuthnMethod):
         try:
             # Do verification
             totp_generator = pyotp.TOTP(self.get_totp_secret_key(_dict["username"][0]))
-            assert(True == totp_generator.verify(_dict["totp"][0]))
+            assert (True == totp_generator.verify(_dict["totp"][0]))
         except (AssertionError, KeyError):
             resp = Unauthorized("Wrong TOTP")
             return resp, False
@@ -175,7 +171,6 @@ class TOTPAuthn(UserAuthnMethod):
             headers = [self.create_cookie(_dict["username"][0], "upm")]
             try:
                 _qp = _dict["query"][0]
-                print("QPPRINCIPIO: ",_qp)
             except KeyError:
                 _qp = self.get_multi_auth_cookie(kwargs['cookie'])
             try:
@@ -186,9 +181,7 @@ class TOTPAuthn(UserAuthnMethod):
                                                          kwargs["path"])
                 except KeyError:
                     return_to = self.generate_return_url(self.return_to, _qp)
-            print("SelfRETURN_TOFINAL: ",self.return_to)
-            print("RETURN_TOFINAL: ",return_to)
-            print("QPFINAL: ",_qp)
+
             return SeeOther(return_to, headers=headers), True
 
     def done(self, areq):

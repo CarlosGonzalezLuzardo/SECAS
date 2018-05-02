@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 import json
 import sys
@@ -6,7 +6,6 @@ import os
 import traceback
 import base64
 import wave
-
 
 import io
 import array
@@ -87,11 +86,12 @@ OAS = None
 
 JWKS_FILE_NAME = "static/jwks.json"
 
-
 ROOT = './'
 LOOKUP = TemplateLookup(directories=[ROOT + 'templates', ROOT + 'htdocs'],
                         module_directory=ROOT + 'modules',
                         input_encoding='utf-8', output_encoding='utf-8')
+
+
 # ----------------------------------------------------------------------------
 
 
@@ -153,7 +153,8 @@ def clear_keys(self, environ, start_response, _):
     resp = Response("OK2")
     return resp(environ, start_response)
 
-#--------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------
 
 
 def modifier(environ, start_response):
@@ -176,19 +177,22 @@ def modifier(environ, start_response):
         newpassword = registration_info['newpassword'][0]
 
         if newpassword != '':
-            resp=Modifier_module.modify_password(username,password,newpassword)
+            resp = Modifier_module.modify_password(username, password, newpassword)
         else:
-            resp=Modifier_module.modify_totp(username,password)
+            resp = Modifier_module.modify_totp(username, password)
 
     return resp(environ, start_response)
 
+
 def pwd_recovery(environ, start_response):
-    resp = Response("OK4")
+    resp = Response("Fail in pass_recovery")
     template_args = {
         'title': 'Password Recovery',
         'username_title': 'Username',
-        'submit_text': 'Submit'
+        'submit_text': 'Submit',
+        'url': environ['HTTP_REFERER']
     }
+
     if (environ['REQUEST_METHOD'] == 'GET'):
         mako_template = LOOKUP.get_template('recover_pwd.mako')
         resp.message = mako_template.render(**template_args).decode('utf-8')
@@ -203,11 +207,12 @@ def pwd_recovery(environ, start_response):
                 # handle the cookie value
                 username = cookie['username'].value
         #################
-
+        print("REGISTRATION_INFO: ", registration_info)
         if 'username' in registration_info:
             username = registration_info['username'][0]
+            url = registration_info['url'][0]
             recover_unit = recovery_module(username)
-            resp = recover_unit.show_question()
+            resp = recover_unit.show_question(url)
 
             ################
             # Cookie break #
@@ -216,23 +221,29 @@ def pwd_recovery(environ, start_response):
             cookieheaders = ('Set-Cookie', cookie['username'].OutputString())
             headers = [cookieheaders, ('content-type', 'text/html')]
             # add headers without triggering start_response
-            resp.headers=headers
+            resp.headers = headers
             #################
 
         elif 'question_ans' in registration_info:
             answers = registration_info['question_ans'][0]
+            url = registration_info['url'][0]
             recover_unit = recovery_module(username)
-            resp = recover_unit.check_answer(answers)
+            resp = recover_unit.check_answer(answers, url)
 
         elif 'newpassword' in registration_info:
             password = registration_info['password'][0]
             newpassword = registration_info['newpassword'][0]
-            if newpassword != password:
+            url = registration_info['url'][0]
+            if newpassword == "" or password == "":
+                return resp('password not found')
+            elif newpassword != password:
                 return resp('300 Retype password mismatch')
-            recover_unit = recovery_module(username)
-            resp = recover_unit.update_password(newpassword)
+            else:
+                recover_unit = recovery_module(username)
+                resp = recover_unit.update_password(newpassword, url)
 
     return resp(environ, start_response)
+
 
 def register_user(environ, start_response):
     resp = Response("OK4")
@@ -246,26 +257,29 @@ def register_user(environ, start_response):
             'question_title': 'Recovery Question',
             'answer_title': 'Answer',
             'answer_title2': 'Repeat Answer',
-            'audio_title':'Submit audio',
-            'audio_button':'Submit audio',
+            'audio_title': 'Submit audio',
+            'audio_button': 'Submit audio',
             'submit_text': 'Submit',
-            'username_used':'username_used',
+            'username_used': 'username_used',
             'username_title_value': "",
-            'question_title_value': ""
+            'question_title_value': "",
+            'url': environ['HTTP_REFERER']
         }
+
         resp = Response("OK51")
         template_args['username_used'] = 0
         mako_template = LOOKUP.get_template('registration.mako')
         resp.message = mako_template.render(**template_args).decode("utf-8")
     elif (environ['REQUEST_METHOD'] == 'POST'):
         registration_info = urllib_parse_qs(environ['wsgi.input'].read().decode('utf-8'))
-        username  = registration_info['username'][0]
-        password  = registration_info['password'][0]
+        username = registration_info['username'][0]
+        password = registration_info['password'][0]
         password2 = registration_info['password2'][0]
-        question  = registration_info['question'][0]
-        answer    = registration_info['answer'][0]
-        answer2   = registration_info['answer2'][0]
+        question = registration_info['question'][0]
+        answer = registration_info['answer'][0]
+        answer2 = registration_info['answer2'][0]
         username_used = registration_info['username_used'][0]
+        url = registration_info['url'][0]
 
         template_args = {
             'title': 'Registration',
@@ -283,7 +297,7 @@ def register_user(environ, start_response):
             'question_title_value': ""
         }
         if UserManager.verify_username(username):
-            username_used1=True
+            username_used1 = True
             # template_args = {
             #     'title': 'Registration',
             #     'username_title': 'Username',
@@ -303,7 +317,7 @@ def register_user(environ, start_response):
             mako_template = LOOKUP.get_template('registration.mako')
             resp.message = mako_template.render(**template_args).decode("utf-8")
         else:
-            username_used1=False
+            username_used1 = False
 
             # template_args = {
             #     'title': 'Registration',
@@ -361,33 +375,33 @@ def register_user(environ, start_response):
                     template_args = {
                         'username': username,
                         'totp_secret': totp_secret,
-                        'qr_blob': qr_code.png_as_base64_str(scale=5)
+                        'qr_blob': qr_code.png_as_base64_str(scale=5),
+                        'home_uri': url
                     }
                 except RuntimeError:
                     resp = BadRequest("There was a problem generating your TOTP")
-
                 mako_template = LOOKUP.get_template('user_registered.mako')
                 resp.message = mako_template.render(**template_args).decode("utf-8")
 
     return resp(environ, start_response)
 
-def voiceRegistration(environ, start_response):
 
+def voiceRegistration(environ, start_response):
     global username_used1
-    resp = Response("OK6")
-    result=False,False
+    resp = Response("Voice files added succesfully")
+    result = False, False
     template_args = {
-            "title": "Biometric registration",
-            "file_label": "Voiceprint recording:",
-            "button_label": "Submit voiceprint:",
-            "username": environ['QUERY_STRING'].split('=')[1],
-            "submit_text": "Submit",
-            "action": environ['REQUEST_URI'],
-            "nsuccess": 0,
-            "nfailures": 0
+        "title": "Biometric registration",
+        "file_label": "Voiceprint recording:",
+        "button_label": "Submit voiceprint:",
+        "username": environ['QUERY_STRING'].split('=')[1],
+        "submit_text": "Submit",
+        "action": environ['REQUEST_URI'],
+        "nsuccess": 0,
+        "nfailures": 0
     }
     userData = [template_args['username'], 'English', 'Mixed', 'my voice is my password']
-    #GET should start the enrollment method
+    # GET should start the enrollment method
     if (environ['REQUEST_METHOD'] == 'GET'):
         biom = BiometricEnrollment(userData)
 
@@ -409,21 +423,23 @@ def voiceRegistration(environ, start_response):
             mako_template = LOOKUP.get_template('biom_enroll.mako')
             resp.message = mako_template.render(**template_args).decode("utf-8")
             resp.headers = headers
-            username_used1=True
+            username_used1 = True
         else:
-            username_used1=False
-            result = biom.enrollVoicePrintBegin('SECAS_'+ str(cookie['username'].value), cookie['channel'].value, cookie['type'].value)
+            username_used1 = False
+            result = biom.enrollVoicePrintBegin('SECAS_' + str(cookie['username'].value), cookie['channel'].value,
+                                                cookie['type'].value)
 
-    #POST should keep going the enrollment method until
+
+            # POST should keep going the enrollment method until
     # either the voiceprint is rejected or validated
     if (environ['REQUEST_METHOD'] == 'POST'):
 
         registration_info = urllib_parse_qs(environ['wsgi.input'].read().decode('utf-8'))
-        nsuccess  = int(registration_info['nsuccess'][0])
-        nfailures  = int(registration_info['nfailures'][0])
-        orig_pkg  = registration_info['thefile'][0]
+        nsuccess = int(registration_info['nsuccess'][0])
+        nfailures = int(registration_info['nfailures'][0])
+        orig_pkg = registration_info['thefile'][0]
 
-        biom = BiometricEnrollment(userData,nsuccess,nfailures)
+        biom = BiometricEnrollment(userData, nsuccess, nfailures)
 
         ################
         # Cookie break #
@@ -439,7 +455,6 @@ def voiceRegistration(environ, start_response):
                 headers = [cookieheaders, ('content-type', 'text/html')]
         #################
 
-
         # wav=pickupVoicePrint()
         # orig_pkg = _dict["thefile"][0]
         orig_audio = base64.b64decode(orig_pkg)
@@ -452,14 +467,15 @@ def voiceRegistration(environ, start_response):
             with open('audiofile.wav', 'wb') as f:
                 soundfile = f.write(data)
             with open('audiofile.wav', 'rb') as soundfile:
-                #num_frames = soundfile.getnframes()
-                #str_data = soundfile.readframes(num_frames)
-                #soundfile.close()
-                result = biom.enrollVoicePrintData('SECAS_'+ str(cookie['username'].value), utterText, soundfile.read())
+                # num_frames = soundfile.getnframes()
+                # str_data = soundfile.readframes(num_frames)
+                # soundfile.close()
+                result = biom.enrollVoicePrintData('SECAS_' + str(cookie['username'].value), utterText,
+                                                   soundfile.read())
         except:
             raise
 
-        if (result[0]==0):
+        if (result[0] == 0):
             template_args["nsuccess"] = nsuccess + 1
         else:
             template_args["nfailures"] = nfailures + 1
@@ -474,7 +490,7 @@ def voiceRegistration(environ, start_response):
             cookieheaders = ('Set-Cookie', cookie['status'].OutputString())
             headers = [cookieheaders, ('content-type', 'text/html')]
             resp = Response("VoicePrint invalid")
-        elif ((result[0]==True) and (result[1]==True)):
+        elif ((result[0] == True) and (result[1] == True)):
             template_args['nsuccess'] = 3
             mako_template = LOOKUP.get_template('biom_enroll.mako')
             resp.message = mako_template.render(**template_args).decode("utf-8")
@@ -500,30 +516,24 @@ def voiceRegistration(environ, start_response):
                     cookie['status'] = 'ok'
                     cookieheaders = ('Set-Cookie', cookie['status'].OutputString())
                     headers = [cookieheaders, ('content-type', 'text/html')]
-            #################
-
-
-
-
+        #################
 
     return resp(environ, start_response)
-
 
 
 def func_logout(environ, start_response):
     session = environ['beaker.session']
-    #session.invalidate()
+    # session.invalidate()
     session.clear()
     resp = Response("Logout OK")
     return resp(environ, start_response)
+
 
 # ----------------------------------------------------------------------------
 from oic.oic.provider import AuthorizationEndpoint
 from oic.oic.provider import TokenEndpoint
 from oic.oic.provider import UserinfoEndpoint
 from oic.oic.provider import RegistrationEndpoint
-
-
 
 # ----------------------------------------------------------------------------
 
@@ -564,7 +574,7 @@ class Application(object):
             (r'^check_session', check_session_iframe),
             #    (r'tracelog', trace_log),
             (r'^logout', func_logout),
-            (r'^biom_enroll',voiceRegistration),
+            (r'^biom_enroll', voiceRegistration),
             (r'^register_user', register_user),
             (r'^recover_user', pwd_recovery),
             (r'^modify_user', modifier)
@@ -615,7 +625,6 @@ class Application(object):
 
     # ----------------------------------------------------------------------------
 
-
     # noinspection PyUnusedLocal
     def token(self, environ, start_response):
         return wsgi_wrapper(environ, start_response, self.oas.token_endpoint,
@@ -623,7 +632,7 @@ class Application(object):
 
     # noinspection PyUnusedLocal
     def authorization(self, environ, start_response):
-        return wsgi_wrapper(environ, start_response, 
+        return wsgi_wrapper(environ, start_response,
                             self.oas.authorization_endpoint, logger=logger)
 
     # noinspection PyUnusedLocal
@@ -764,7 +773,6 @@ def generate_user_password_authn():
 
 
 def generate_totp_authn():
-
     end_points = config.AUTHENTICATION["TOTP"]["END_POINTS"]
 
     # end_points = config.TOTP_END_POINTS
@@ -784,6 +792,7 @@ def generate_totp_authn():
 
     return totp_login_authn, totp_endpoint
 
+
 def generate_biometric_authn():
     end_points = config.AUTHENTICATION["VoiceVerification"]["END_POINTS"]
     # end_points = config.BIOM_END_POINTS
@@ -793,14 +802,18 @@ def generate_biometric_authn():
     # userData = ['SECAS_','English','Mixed','my voice is my password']
     full_end_point_paths = [
         "%s%s" % (_issuer, ep) for ep in end_points]
-    biom_login_authn = BiometricAuthn(None, 'biom_form.mako',LOOKUP, lambda user_id: ['SECAS_' + user_id,'English','Mixed','my voice is my password'],
-                                 "%s/authorization" % _issuer, None, full_end_point_paths)
+    biom_login_authn = BiometricAuthn(None, 'biom_form.mako', LOOKUP,
+                                      lambda user_id: ['SECAS_' + user_id, 'English', 'Mixed',
+                                                       'my voice is my password'],
+                                      "%s/authorization" % _issuer, None, full_end_point_paths)
 
     BIOM_POINT_INDEX = 0
 
     # biom_endpoint = config.BIOM_END_POINTS[BIOM_POINT_INDEX]
     biom_endpoint = config.AUTHENTICATION["VoiceVerification"]["END_POINTS"][BIOM_POINT_INDEX]
     return biom_login_authn, biom_endpoint
+
+
 # ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
@@ -854,7 +867,7 @@ if __name__ == '__main__':
     totp_authn, totp_endpoint = generate_totp_authn()
 
     biom_authn, biom_endpoint = generate_biometric_authn()
-    print("PEPE")
+
     auth_modules = [(password_authn, r'^' + password_endpoint),
                     (totp_authn, r'^' + totp_endpoint),
                     (biom_authn, r'^' + biom_endpoint)
@@ -866,7 +879,7 @@ if __name__ == '__main__':
         ac.add(config.AUTHENTICATION["MultiAuthn"]["ACR"], authn,
                config.AUTHENTICATION["MultiAuthn"]["WEIGHT"],
                "")
-# ----------------------------------------------------------------------------
+    # ----------------------------------------------------------------------------
     # dealing with authorization
     authz = AuthzHandling()
 
@@ -934,7 +947,7 @@ if __name__ == '__main__':
     for b in OAS.keyjar[""]:
         LOGGER.info("OC3 server keys: %s" % b)
 
-    _app = Application(OAS,_urls)
+    _app = Application(OAS, _urls)
 
     # Setup the web server
     SRV = wsgiserver.CherryPyWSGIServer(('0.0.0.0', args.port),

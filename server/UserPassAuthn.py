@@ -69,7 +69,7 @@ class UserPassBcryptMako(UsernamePasswordMako):
         except KeyError:
             action = self.verification_endpoints[end_point_index]
 
-        argv = {"password": "", "action": action}
+        argv = {"password": "", "action": action, "url": "https://localhost:8092/authorization?"+kwargs["query"]}
 
         for fro, to in self.param_map.items():
             try:
@@ -96,5 +96,5 @@ class UserPassBcryptMako(UsernamePasswordMako):
                     pass
                 else:
                     break
-        print("ARGV -> UserPassAuth: ",argv)
+
         return argv

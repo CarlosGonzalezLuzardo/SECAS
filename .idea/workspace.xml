@@ -2,29 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7988e9c7-37ed-4770-ba8e-3bb353a9088d" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/SECAS.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/rp.log" beforeDir="false" afterPath="$PROJECT_DIR$/client/rp.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/TOTPAuthn.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/TOTPAuthn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/UserPassAuthn.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/UserPassAuthn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/audiofile.wav" beforeDir="false" afterPath="$PROJECT_DIR$/server/audiofile.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/client_db.bak" beforeDir="false" afterPath="$PROJECT_DIR$/server/client_db.bak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/client_db.dat" beforeDir="false" afterPath="$PROJECT_DIR$/server/client_db.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/biometricAuthn.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/biometricAuthn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/client_db.db" beforeDir="false" afterPath="$PROJECT_DIR$/server/client_db.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/client_db.dir" beforeDir="false" afterPath="$PROJECT_DIR$/server/client_db.dir" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/data.db" beforeDir="false" afterPath="$PROJECT_DIR$/server/data.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/htdocs/biom_enroll.mako" beforeDir="false" afterPath="$PROJECT_DIR$/server/htdocs/biom_enroll.mako" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/htdocs/ask_question.mako" beforeDir="false" afterPath="$PROJECT_DIR$/server/htdocs/ask_question.mako" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/htdocs/biom_form.mako" beforeDir="false" afterPath="$PROJECT_DIR$/server/htdocs/biom_form.mako" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/htdocs/login.mako" beforeDir="false" afterPath="$PROJECT_DIR$/server/htdocs/login.mako" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/htdocs/modify_totp.mako" beforeDir="false" afterPath="$PROJECT_DIR$/server/htdocs/modify_totp.mako" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/htdocs/new_pwd.mako" beforeDir="false" afterPath="$PROJECT_DIR$/server/htdocs/new_pwd.mako" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/htdocs/recover_pwd.mako" beforeDir="false" afterPath="$PROJECT_DIR$/server/htdocs/recover_pwd.mako" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/htdocs/registration.mako" beforeDir="false" afterPath="$PROJECT_DIR$/server/htdocs/registration.mako" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/htdocs/totp_form.mako" beforeDir="false" afterPath="$PROJECT_DIR$/server/htdocs/totp_form.mako" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/htdocs/user_registered.mako" beforeDir="false" afterPath="$PROJECT_DIR$/server/htdocs/user_registered.mako" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/modules/biom_enroll.mako.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/modules/biom_enroll.mako.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/modules/biom_form.mako.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/modules/biom_form.mako.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/modules/login.mako.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/modules/login.mako.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/modules/registration.mako.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/modules/registration.mako.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/modules/totp_form.mako.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/modules/totp_form.mako.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/modules/user_registered.mako.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/modules/user_registered.mako.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/oc3.log" beforeDir="false" afterPath="$PROJECT_DIR$/server/oc3.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/recovery.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/recovery.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/static/jwks.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/static/jwks.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/userManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/userManager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/voiceReg.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/voiceReg.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -35,29 +38,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="registration.mako" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/htdocs/registration.mako">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="73" column="23" selection-start-line="73" selection-start-column="23" selection-end-line="73" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="279" column="36" lean-forward="true" selection-start-line="279" selection-start-column="36" selection-end-line="279" selection-end-column="36" />
+            <state relative-caret-position="559">
+              <caret line="112" column="72" selection-start-line="112" selection-start-column="72" selection-end-line="112" selection-end-column="72" />
+              <folding>
+                <element signature="e#397#408#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="biom_enroll.mako" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/htdocs/biom_enroll.mako">
+      <file leaf-file-name="biometricAuthn.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/biometricAuthn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="70" column="3" selection-start-line="70" selection-start-column="3" selection-end-line="70" selection-end-column="3" />
+            <state relative-caret-position="244">
+              <caret line="162" selection-start-line="162" selection-end-line="162" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TOTPAuthn.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/TOTPAuthn.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="143" selection-start-line="143" selection-end-line="143" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/cherrypy/wsgiserver/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="454">
+              <caret line="2311" selection-start-line="2311" selection-end-line="2311" />
             </state>
           </provider>
         </entry>
@@ -65,8 +80,8 @@
       <file leaf-file-name="voiceReg.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/voiceReg.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="44" selection-start-line="44" selection-end-line="44" />
+            <state relative-caret-position="564">
+              <caret line="59" column="49" selection-start-line="59" selection-start-column="49" selection-end-line="59" selection-end-column="49" />
               <folding>
                 <element signature="e#1#41#0" expanded="true" />
               </folding>
@@ -74,10 +89,19 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="rp3.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/client/rp3.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="469">
+              <caret line="163" column="13" selection-start-line="163" selection-start-column="13" selection-end-line="163" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="userManager.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/userManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
+            <state relative-caret-position="664">
               <caret line="82" selection-start-line="82" selection-end-line="82" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
@@ -86,50 +110,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/cherrypy/wsgiserver/__init__.py">
+      <file leaf-file-name="registration.mako" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/htdocs/registration.mako">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
-              <caret line="2321" selection-start-line="2321" selection-end-line="2321" />
+            <state relative-caret-position="339">
+              <caret line="81" selection-start-line="81" selection-end-line="81" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="rp3.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/rp3.py">
+      <file leaf-file-name="biom_enroll.mako" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/htdocs/biom_enroll.mako">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="456" column="16" selection-start-line="456" selection-start-column="16" selection-end-line="456" selection-end-column="16" />
+            <state relative-caret-position="495">
+              <caret line="57" column="49" selection-start-line="57" selection-start-column="49" selection-end-line="57" selection-end-column="49" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="biometricAuthn.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/biometricAuthn.py">
+      <file leaf-file-name="user_registered.mako" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/htdocs/user_registered.mako">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="233" selection-start-line="233" selection-end-line="233" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="login.mako" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/htdocs/login.mako">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="authn_context.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/oic/utils/authn/authn_context.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
-              <caret line="211" selection-start-line="211" selection-end-line="211" />
+            <state relative-caret-position="195">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
             </state>
           </provider>
         </entry>
@@ -181,9 +184,21 @@
       <list>
         <option value="$PROJECT_DIR$/server/userManager.py" />
         <option value="$PROJECT_DIR$/server/htdocs/biom_enroll.mako" />
+        <option value="$PROJECT_DIR$/server/voiceReg.py" />
+        <option value="$PROJECT_DIR$/server/biometricAuthn.py" />
+        <option value="$PROJECT_DIR$/server/TOTPAuthn.py" />
+        <option value="$PROJECT_DIR$/server/UserPassAuthn.py" />
+        <option value="$PROJECT_DIR$/server/recovery.py" />
+        <option value="$PROJECT_DIR$/server/modules/ask_question.mako.py" />
+        <option value="$PROJECT_DIR$/server/htdocs/ask_question.mako" />
+        <option value="$PROJECT_DIR$/server/htdocs/biom_form.mako" />
+        <option value="$PROJECT_DIR$/server/htdocs/login.mako" />
+        <option value="$PROJECT_DIR$/server/htdocs/modify_totp.mako" />
+        <option value="$PROJECT_DIR$/server/htdocs/new_pwd.mako" />
+        <option value="$PROJECT_DIR$/server/htdocs/recover_pwd.mako" />
+        <option value="$PROJECT_DIR$/server/htdocs/totp_form.mako" />
         <option value="$PROJECT_DIR$/server/htdocs/user_registered.mako" />
         <option value="$PROJECT_DIR$/server/htdocs/registration.mako" />
-        <option value="$PROJECT_DIR$/server/voiceReg.py" />
         <option value="$PROJECT_DIR$/server/server.py" />
       </list>
     </option>
@@ -245,7 +260,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.server">
+  <component name="RunManager" selected="Python.rp3">
     <configuration name="biometricAuthn" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="SECAS" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -307,9 +322,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.rp3" />
         <item itemvalue="Python.server" />
         <item itemvalue="Python.biometricAuthn" />
-        <item itemvalue="Python.rp3" />
       </list>
     </recent_temporary>
   </component>
@@ -342,11 +357,22 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39908606" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49809885" visible="true" weight="0.19983819" />
+      <window_info id="Structure" order="1" sideWeight="0.50190115" side_tool="true" visible="true" weight="0.19983819" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.33511043" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39908606" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Python Console" order="7" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -357,22 +383,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>390</line>
+          <line>404</line>
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>418</line>
+          <line>434</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>414</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>406</line>
-          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/voiceReg.py</url>
@@ -381,12 +397,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>466</line>
+          <line>483</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>457</line>
+          <line>472</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -401,7 +417,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>371</line>
+          <line>385</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -410,33 +426,23 @@
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>368</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>369</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/client/rp3.py</url>
           <line>447</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>184</line>
+          <line>186</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>158</line>
+          <line>159</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>512</line>
+          <line>523</line>
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -461,57 +467,57 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>236</line>
+          <line>247</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>765</line>
+          <line>774</line>
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>786</line>
+          <line>795</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>751</line>
+          <line>760</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/biometricAuthn.py</url>
-          <line>204</line>
+          <line>202</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/biometricAuthn.py</url>
-          <line>164</line>
+          <line>162</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/biometricAuthn.py</url>
-          <line>224</line>
+          <line>221</line>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/TOTPAuthn.py</url>
-          <line>157</line>
+          <line>153</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/biometricAuthn.py</url>
-          <line>249</line>
+          <line>246</line>
           <option name="timeStamp" value="39" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>375</line>
+          <line>390</line>
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/server/server.py</url>
-          <line>851</line>
+          <line>864</line>
           <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -520,13 +526,8 @@
           <option name="timeStamp" value="43" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="44" />
+      <option name="time" value="45" />
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="PythonConfigurationType">
-        <watch expression="environ" language="Python" />
-      </configuration>
-    </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
@@ -538,13 +539,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/server/server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10050">
-          <caret line="701" column="32" selection-start-line="701" selection-start-column="32" selection-end-line="701" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/beaker/middleware.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2325">
@@ -608,13 +602,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1290">
           <caret line="86" column="19" lean-forward="true" selection-start-line="86" selection-start-column="19" selection-end-line="86" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/recovery.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="90" column="64" selection-start-line="90" selection-start-column="12" selection-end-line="90" selection-end-column="64" />
         </state>
       </provider>
     </entry>
@@ -737,13 +724,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/htdocs/user_registered.mako">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/templates/root.mako">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -751,24 +731,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/htdocs/totp_form.mako">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/modules/totp_form.mako.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/htdocs/biom_form.mako">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="56" selection-start-line="35" selection-start-column="56" selection-end-line="35" selection-end-column="56" />
         </state>
       </provider>
     </entry>
@@ -786,23 +752,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/TOTPAuthn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="167" selection-start-line="167" selection-end-line="167" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/biometricAuthn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="233" selection-start-line="233" selection-end-line="233" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/oic/utils/authn/authn_context.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="549">
@@ -810,9 +759,116 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/server/UserPassAuthn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="32" lean-forward="true" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
+          <folding>
+            <element signature="e#355#408#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/recovery.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+          <folding>
+            <element signature="e#348#396#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/modules/ask_question.mako.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="42" selection-start-line="33" selection-start-column="42" selection-end-line="33" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/htdocs/ask_question.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="31" column="7" lean-forward="true" selection-start-line="31" selection-start-column="7" selection-end-line="31" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/htdocs/biom_form.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="242" column="61" selection-start-line="242" selection-start-column="61" selection-end-line="242" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/htdocs/login.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="729">
+          <caret line="61" column="9" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/htdocs/modify_totp.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/htdocs/new_pwd.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="38" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/htdocs/recover_pwd.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="7" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/htdocs/totp_form.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="7" selection-start-line="26" selection-start-column="7" selection-end-line="26" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/htdocs/user_registered.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/htdocs/registration.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="81" selection-start-line="81" selection-end-line="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/htdocs/biom_enroll.mako">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="57" column="49" selection-start-line="57" selection-start-column="49" selection-end-line="57" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/voiceReg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="564">
+          <caret line="59" column="49" selection-start-line="59" selection-start-column="49" selection-end-line="59" selection-end-column="49" />
+          <folding>
+            <element signature="e#1#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server/userManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
+        <state relative-caret-position="664">
           <caret line="82" selection-start-line="82" selection-end-line="82" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
@@ -820,55 +876,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/htdocs/login.mako">
+    <entry file="file://$PROJECT_DIR$/server/TOTPAuthn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
+        <state relative-caret-position="375">
+          <caret line="143" selection-start-line="143" selection-end-line="143" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/htdocs/registration.mako">
+    <entry file="file://$PROJECT_DIR$/server/biometricAuthn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="73" column="23" selection-start-line="73" selection-start-column="23" selection-end-line="73" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/htdocs/biom_enroll.mako">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="70" column="3" selection-start-line="70" selection-start-column="3" selection-end-line="70" selection-end-column="3" />
+        <state relative-caret-position="244">
+          <caret line="162" selection-start-line="162" selection-end-line="162" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/cherrypy/wsgiserver/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="2321" selection-start-line="2321" selection-end-line="2321" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/rp3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="456" column="16" selection-start-line="456" selection-start-column="16" selection-end-line="456" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/voiceReg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="44" selection-start-line="44" selection-end-line="44" />
-          <folding>
-            <element signature="e#1#41#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="454">
+          <caret line="2311" selection-start-line="2311" selection-end-line="2311" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="279" column="36" lean-forward="true" selection-start-line="279" selection-start-column="36" selection-end-line="279" selection-end-column="36" />
+        <state relative-caret-position="559">
+          <caret line="112" column="72" selection-start-line="112" selection-start-column="72" selection-end-line="112" selection-end-column="72" />
+          <folding>
+            <element signature="e#397#408#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/rp3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="469">
+          <caret line="163" column="13" selection-start-line="163" selection-start-column="13" selection-end-line="163" selection-end-column="13" />
         </state>
       </provider>
     </entry>

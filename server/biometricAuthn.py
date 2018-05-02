@@ -99,16 +99,14 @@ class BiometricAuthn(UserAuthnMethod):
         :param kwargs:
         :return: dictionary of parameters used to build the Authn page
         """
-        print("KWARGS_BIO: ", kwargs)
-
+        print("KWARGSBIOMETRIC:",kwargs)
         try:
             action = kwargs["action"]
         except KeyError:
             action = self.verification_endpoints[end_point_index]
-        print("KWARGSSSSSSSSSSSSSSSSSSSSSS:", parse_qs(kwargs["request"])['username'][0])
-        argv = {"password": "", "action": action, 'username': parse_qs(kwargs["request"])['username'][0]}
+        argv = {"password": "", "action": action, 'username': parse_qs(kwargs["request"])['username'][0], "url": parse_qs(kwargs["request"])['url'][0]}
                 #'username': parse_qs(kwargs["request"])["The connection fail"][0]}
-
+        print("KWARGSBIOMETRICREQUEST:",kwargs["request"])
         for fro, to in self.param_map.items():
             try:
                 argv[to] = kwargs[fro]
@@ -204,7 +202,6 @@ class BiometricAuthn(UserAuthnMethod):
         """
         if isinstance(request, six.string_types):
             _dict = parse_qs(request)
-            print("RESQUESTTTTTTTTTTT: ",parse_qs(request))
         elif isinstance(request, dict):
             _dict = request
         else:
@@ -247,7 +244,7 @@ class BiometricAuthn(UserAuthnMethod):
                                                          kwargs["path"])
                 except KeyError:
                     return_to = self.generate_return_url(self.return_to, _qp)
-            print("RETURN_TOFINAL: ",return_to)
+
             return SeeOther(return_to, headers=headers), True
 
     def done(self, areq):

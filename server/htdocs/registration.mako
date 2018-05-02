@@ -1,48 +1,50 @@
 <%inherit file="root.mako" />
 
 <body onload="myFunction()">
-<div class="header">
+
+<div class="col-md-4 col-md-offset-4 header">
     <h1>${title}</h1>
 </div>
-<div class="registration_form" class="block">
+<div class="col-md-6 col-md-offset-3 registration_form top_form" class="block">
     <form method="post" class="login form">
-        <table>
+        <table class="registration-table">
             <tr>
-                <td>${username_title}</td>
-                <td><input type="text" name="username" id="username" value="${username_title_value}"/></td>
+                <td  class="col-md-4">${username_title}</td>
+                <td class="col-md-8"><input class="form-control" type="text" name="username" id="username" value="${username_title_value}"/></td>
             </tr>
             <tr>
-                <td>${password_title}</td>
-                <td><input type="password" name="password"/></td>
+                <td class="col-md-4">${password_title}</td>
+                <td class="col-md-8"><input class="form-control" type="password" name="password"/></td>
             </tr>
             <tr>
-                <td>${password_title2}</td>
-                <td><input type="password" name="password2"/></td>
+                <td class="col-md-4">${password_title2}</td>
+                <td class="col-md-8"><input class="form-control" type="password" name="password2"/></td>
             </tr>
             <tr>
-                <td>${question_title}</td>
-                <td><input type="text" name="question" value="${question_title_value}"/></td>
+                <td class="col-md-4">${question_title}</td>
+                <td class="col-md-8"><input class="form-control" type="text" name="question" value="${question_title_value}"/></td>
             </tr>
             <tr>
-                <td>${answer_title}</td>
-                <td><input type="password" name="answer"/></td>
+                <td class="col-md-4">${answer_title}</td>
+                <td class="col-md-8"><input class="form-control" type="password" name="answer"/></td>
             </tr>
             <tr>
-                <td>${answer_title2}</td>
-                <td><input type="password" name="answer2"/></td>
+                <td class="col-md-4">${answer_title2}</td>
+                <td class="col-md-8"><input class="form-control" type="password" name="answer2"/></td>
             </tr>
             <tr>
-                <td>${audio_title}</td>
-                <td><input type="button" name="audioButton" id="audioButton"
+                <td class="col-md-4">${audio_title}</td>
+                <td class="col-md-8"><input class="btn btn-secondary btn-block" type="button" name="audioButton" id="audioButton"
                         value=${audio_button}/></td>
             </tr>
-            <tr>
-                <td><input type="submit" name="form.commit"
-                        value="${submit_text}"/></td>
-            </tr>
-            <input name="username_used" id="username_used" type="number" value="${username_used}" hidden>
         </table>
+        <input name="username_used" id="username_used" type="number" value="${username_used}" hidden>
+        <div><input class="form-control" type="hidden" name="url" value="${url}"/></div>
+        <div class="submit"><input class="btn btn-primary btn-lg btn-block" type="submit" name="form.commit"
+                        value="${submit_text}"/></div>
+
     </form>
+    <a href="${url}"><strong>BACK</strong></a><br>
 </div>
 
 <%def name="add_js()">
@@ -73,18 +75,10 @@
 
             var url = "biom_enroll?id=" + username;
 
-            var childWin = window.open(url, "Voiceprint enrollment", "width=400,height=250");
+            var childWin = window.open(url, "Voiceprint enrollment", "width=500,height=350");
             return false;
         }
   });
-
-  function shenanigans(val1){
-##       shenanigans
-      if (val1) {
-          successes+=1;
-          console.log(successes);
-      }
-  }
 
   function myFunction(){
     var error = document.getElementById('username_used');
@@ -100,4 +94,11 @@
     }
   }
 
+  function shenanigans(val1){
+##       shenanigans
+      if (val1) {
+          successes+=1;
+          console.log(successes);
+      }
+  }
 </script>

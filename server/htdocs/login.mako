@@ -1,27 +1,27 @@
 <%inherit file="root.mako" />
-<div class="header">
+<div class="col-md-4 col-md-offset-4 header">
     <h1><a href="/">${title}</a></h1>
 </div>
-<div class="login_form" class="block">
+<div class="col-md-4 col-md-offset-4 login_form top_form" class="block">
     <form action="${action}" method="post" class="login form">
         <input type="hidden" name="query" value="${query}"/>
         <input type="hidden" name="acr_values" value="${acr}"/>
+        ## <input type="hidden" name="url" id="url" value="${url}"/>
         <table>
             <tr>
                 <td>${login_title}</td>
-                <td><input type="text" name="login" value="${login}"/></td>
+                <td><input class="form-control" type="text" name="login" value="${login}"/></td>
             </tr>
             <tr>
                 <td>${passwd_title}</td>
-                <td><input type="password" name="password"
+                <td><input class="form-control" type="password" name="password"
                 value="${password}"/></td>
             </tr>
-            <tr>
-                </td>
-                <td><input type="submit" name="form.commit"
-                        value="${submit_text}"/></td>
-            </tr>
         </table>
+        <input class="form-control" type="hidden" name="url" id="url" value="${url}"/>
+        <div><input class="btn btn-primary btn-lg btn-block top_form" type="submit" name="form.commit"
+                        value="${submit_text}"/></div>
+
     </form>
     % if logo_uri:
         <img src="${logo_uri}" alt="Client logo">
@@ -32,6 +32,13 @@
     % if tos_uri:
         <a href="${tos_uri}"><strong>Client&#39;s Terms of Service</strong></a><br>
     % endif
+    ## % if recover_uri:
+    ##     <form action="${recover_uri}" method="post" class="login form">
+    ##         <input class="form-control" type="text" id="url" value="${url}"/>
+    ##         <input class="btn btn-primary btn-lg btn-block top_form" type="submit" name="form.commit"
+    ##                     value="Forgot your password?"/>
+    ##     </form>
+    ## % endif
     % if recover_uri:
         <a href="${recover_uri}"><strong>Forgot your password?</strong></a><br>
     % endif
@@ -47,3 +54,9 @@
         });
     </script>
 </%def>
+
+<script>
+    var URLactual = window.location;
+    //document.getElementById("url").value = URLactual;
+    //console.log("URLLLLLLLLLLLLLLLLLLLL: "+ document.getElementById('url').value);
+</script>
