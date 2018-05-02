@@ -1,5 +1,6 @@
 <%inherit file="root.mako" />
 
+<body onload="myFunction()">
 <div class="header">
     <h1>${title}</h1>
 </div>
@@ -8,7 +9,7 @@
         <table>
             <tr>
                 <td>${username_title}</td>
-                <td><input type="text" name="username" id="username" /></td>
+                <td><input type="text" name="username" id="username" value="${username_title_value}"/></td>
             </tr>
             <tr>
                 <td>${password_title}</td>
@@ -20,7 +21,7 @@
             </tr>
             <tr>
                 <td>${question_title}</td>
-                <td><input type="text" name="question"/></td>
+                <td><input type="text" name="question" value="${question_title_value}"/></td>
             </tr>
             <tr>
                 <td>${answer_title}</td>
@@ -39,6 +40,7 @@
                 <td><input type="submit" name="form.commit"
                         value="${submit_text}"/></td>
             </tr>
+            <input name="username_used" id="username_used" type="number" value="${username_used}" hidden>
         </table>
     </form>
 </div>
@@ -83,4 +85,19 @@
           console.log(successes);
       }
   }
+
+  function myFunction(){
+    var error = document.getElementById('username_used');
+
+    if(error.value == 1){
+        alert("Usuario ya existente");
+    }
+    else if (error.value == 2){
+        alert("Password mismatch");
+    }
+    else if (error.value == 3){
+        alert("Answer mismatch");
+    }
+  }
+
 </script>

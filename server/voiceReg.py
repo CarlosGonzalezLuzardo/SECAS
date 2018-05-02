@@ -44,8 +44,8 @@ class BiometricEnrollment():
 
         a = zeep.helpers.serialize_object(result)
         if (a['ResultCode'] == 0):
-            return True, False
-        return False, False
+            return True, False, 1
+        return False, False, 1
 
     def enrollVoicePrintData(self,username,utteranceText,wav):
 
@@ -55,9 +55,9 @@ class BiometricEnrollment():
 
         if ( a['ResultCode'] == 0):
             self.nsuccess=self.nsuccess+1
-            return True,self.nsuccess==self.slimit
+            return True,self.nsuccess==self.slimit, 1
         self.nerrors=self.nerrors+1
-        return False,self.nerrors==self.elimit
+        return False,self.nerrors==self.elimit, 1
 
 
     def _cancel(self):

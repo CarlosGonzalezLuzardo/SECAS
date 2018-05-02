@@ -257,3 +257,16 @@ class UserManager(UserInfo):
             return True
         else:
             raise RuntimeError("DB could not be found!")
+
+
+    def verify_username(username):
+        if os.path.isfile(FNAME):
+            with open(FNAME, 'r+') as f:
+                DB = json.load(f)
+                if username in DB:
+                    return True
+                else:
+                    return False
+            f.close()
+        else:
+            raise RuntimeError("DB could not be found!")

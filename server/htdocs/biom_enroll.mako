@@ -1,7 +1,9 @@
 <%inherit file="root.mako" />
 
+<body onload="myFunction()">
 <div class="header">
     <h1>${title}</h1>
+
 </div>
 <div class="voiceForm" class="block">
 
@@ -13,10 +15,10 @@
     <form name="biom" id="biom" action="${action}" class="login form" method="post"
     >
         <table>
-            <input type="hidden" name="username" value="${username}"/>
-            <input name="thefile" id="thefile" type="text" value='' hidden>
-            <input name="nsuccess" id="nsuccess" type="number" value="${nsuccess}" hidden>
-            <input name="nfailures" id="nfailures" type="number" value="${nfailures}" hidden>
+            <input type="visible" name="username" value="${username}"/>
+            <input name="thefile" id="thefile" type="text" value='' visible>
+            <input name="nsuccess" id="nsuccess" type="number" value="${nsuccess}" visible>
+            <input name="nfailures" id="nfailures" type="number" value="${nfailures}" visible>
             <tr>
                 <td>${button_label}</td>
                 <td><input type="submit" value=${submit_text} /></td>
@@ -68,6 +70,19 @@
       window.opener.shenanigans(true);
   }
 
+  function myFunction(){
+    var failures = document.getElementById('nfailures');
+    var success = document.getElementById('nsuccess');
+
+    if(failures.value == 4){
+        alert("Usuario ya existente");
+        window.close();
+    }
+    if(success.value == 3){
+        alert("Archivos subidos correctamente");
+        window.close();
+    }
+  }
 </script>
 
 
