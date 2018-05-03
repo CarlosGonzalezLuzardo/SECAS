@@ -5,18 +5,29 @@
 
 table{
     height: 8em;
+    width: 100%;
 }
 
 .login_form{
     text-align: center;
 }
 
+ul{
+    list-style: none;
+}
+
+.voiceForm{
+    text-align: center;
+}
+
 .top_form{
     margin-top: 2em;
+    text-align: center;
 }
 
 .registration-table{
     height: 25em;
+    width: 100%;
 }
 
 .submit{
