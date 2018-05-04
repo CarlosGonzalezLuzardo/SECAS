@@ -22,6 +22,8 @@
     </form>
 </div>
 
+<script src="static/main.js"></script>
+
 <script type="text/javascript">
     function validateForm() {
         var recorder = document.getElementById('recorder');
@@ -154,27 +156,28 @@
          */
         function startRecording() {
             // Access the Microphone using the navigator.getUserMedia method to obtain a stream
-            navigator.getUserMedia({ audio: true }, function (stream) {
+            ////navigator.getUserMedia({ audio: true }, function (stream) {
                 // Expose the stream to be accessible globally
-                audio_stream = stream;
+                ////audio_stream = stream;
                 // Create the MediaStreamSource for the Recorder library
-                var input = audio_context.createMediaStreamSource(stream);
+                ////var input = audio_context.createMediaStreamSource(stream);
                 console.log('Media stream succesfully created');
 
                 // Initialize the Recorder Library
-                recorder = new Recorder(input, { numChannels: 1, sampleRate: 8000 });
+                ////recorder = new Recorder(input, { numChannels: 1, sampleRate: 8000 });
                 console.log('Recorder initialised');
 
                 // Start recording !
-                recorder && recorder.record();
+                ////recorder && recorder.record();
+                toggleRecording(this);
                 console.log('Recording...');
 
                 // Disable Record button and enable stop button !
                 document.getElementById("start-btn").disabled = true;
                 document.getElementById("stop-btn").disabled = false;
-            }, function (e) {
-                console.error('No live audio input: ' + e);
-            });
+            ////}, function (e) {
+            ////    console.error('No live audio input: ' + e);
+            ////});
         }
 
         /**
@@ -186,15 +189,19 @@
         function stopRecording(callback, AudioFormat) {
             console.log("AudioFormat: "+AudioFormat);
             // Stop the recorder instance
-            recorder && recorder.stop();
+            ////recorder && recorder.stop();
+             audioRecorder.stop();
+             audioRecorder.getBuffers( gotBuffers );
+
             console.log('Stopped recording.');
 
             // Stop the getUserMedia Audio Stream !
-            audio_stream.getAudioTracks()[0].stop();
+            ////audio_stream.getAudioTracks()[0].stop();
+
 
             // Disable Stop button and enable Record button !
-            document.getElementById("start-btn").disabled = true;
-            document.getElementById("stop-btn").disabled = true;
+            document.getElementById("start-btn").disabled = false;
+            document.getElementById("stop-btn").disabled = false;
 
             // Use the Recorder Library to export the recorder Audio as a .wav file
             // The callback providen in the stop recording method receives the blob
@@ -205,13 +212,18 @@
                  * Note that this method exports too with mp3 if
                  * you provide the second argument of the function
                  */
-                recorder && recorder.exportWAV(function (blob) {
+                audioRecorder && audioRecorder.exportMonoWAV(function (blob) {
                     callback(blob);
-                    // create WAV download link using audio data blob
-                    // createDownloadLink();
+                     //create WAV download link using audio data blob
+                     ////createDownloadLink();
 
                     // Clear the Recorder to start again !
-                    recorder.clear();
+                    ////recorder.clear();
+                    console.log('Clear the recorder');
+
+                    audioRecorder.clear();
+                    console.log('audioRecorder.clear()');
+
                 }, (AudioFormat || "audio/wav"));
             }
         }
@@ -219,7 +231,8 @@
         // Initialize everything once the window loads
         window.onload = function(){
             // Prepare and check if requirements are filled
-            Initialize();
+            ////Initialize();
+            initAudio();
 
             // Handle on start recording button
             document.getElementById("start-btn").addEventListener("click", function(){

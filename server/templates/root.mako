@@ -6,7 +6,8 @@
     <% self.seen_css.add(path) %>
 </%def>
 <%def name="css()" filter="trim">
-    ${css_link('/css/main.css', 'screen')}
+    ${css_link('/static/bootstrap/css/bootstrap.min.css', 'screen')}
+    ${css_link('/static/bootstrap/css/style.css', 'screen')}
 </%def>
 <%def name="pre()" filter="trim">
 </%def>
@@ -22,6 +23,8 @@
 <head><title>OpenID Connect provider example</title>
 ${self.css()}
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="/static/recorder.js"></script>
+<script src="/static/main.js"></script>
 </head>
 <body>
 ${pre()}
