@@ -1,0 +1,8 @@
+
+server/data\.db
+
+client/rp\.log
+
+server/audiofile\.wav
+
+server/client_db\.db

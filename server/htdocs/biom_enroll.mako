@@ -215,7 +215,7 @@
             audio_stream.getAudioTracks()[0].stop();
 
             // Disable Stop button and enable Record button !
-            document.getElementById("start-btn").disabled = true;
+            document.getElementById("start-btn").disabled = false;
             document.getElementById("stop-btn").disabled = true;
 
             // Use the Recorder Library to export the recorder Audio as a .wav file

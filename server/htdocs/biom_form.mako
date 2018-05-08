@@ -105,6 +105,7 @@
             <button type="button" class="btn btn-success" id="start-btn"><span class="glyphicon glyphicon-record"></span> Start recording</button>
             <button type="button" class="btn btn-danger" id="stop-btn" ><span class="glyphicon glyphicon-stop"></span> Stop recording</button>
         </p>
+        <audio id="player2" controls></audio>
         <form name="biom" id="biom" action="${action}" class="login form" method="post">
             <table>
                 <input type="visible" name="username" value="${username}"/>
@@ -196,7 +197,7 @@
             audio_stream.getAudioTracks()[0].stop();
 
             // Disable Stop button and enable Record button !
-            document.getElementById("start-btn").disabled = true;
+            document.getElementById("start-btn").disabled = false;
             document.getElementById("stop-btn").disabled = true;
 
             // Use the Recorder Library to export the recorder Audio as a .wav file
@@ -244,9 +245,9 @@
                     // In this case we are going to add an Audio item to the list so you
                     // can play every stored Audio
                     var url = URL.createObjectURL(AudioBLOB);
-                    var li = document.createElement('li');
-                    var au = document.createElement('audio');
-                    //var hf = document.createElement('a');
+
+                    //var li = document.createElement('li');
+                    var au = document.getElementById('player2');
 
                     au.controls = true;
                     au.src = url;
@@ -257,15 +258,16 @@
                     //     for audio/mpeg (mp3) the extension is .mp3
                     //hf.download = new Date().toISOString() + '.wav';
                     //hf.innerHTML = hf.download;
-                    li.appendChild(au);
+                    ////li.appendChild(au);
                     //li.appendChild(hf);
-                    recordingslist.appendChild(li);
+                    ////recordingslist.appendChild(li);
                     var reader2  = new FileReader();
 
                     reader2.onload = (function()
                     { return function(e)
                         {
                             var myform = document.getElementById('thefile2');
+                            myform.value = '';
                             myform.value = window.btoa(e.target.result);
                             console.log('Voiceprint ready to submit');
                         };
@@ -274,6 +276,8 @@
                     reader2.readAsDataURL(AudioBLOB);
 
                 }, _AudioFormat);
+                document.getElementById("start-btn").disabled = false;
+
             }, false);
         };
     </script>
