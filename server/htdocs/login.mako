@@ -1,27 +1,28 @@
 <%inherit file="root.mako" />
 <div class="col-md-4 col-md-offset-4 header">
-    <h1><a href="/">${title}</a></h1>
+     ##<h1><a href="/">${title}</a></h1>
+    <h1><font color="#428bca">${title}</font></h1>
 </div>
 <div class="col-md-4 col-md-offset-4 login_form top_form" class="block">
-    <form action="${action}" method="post" class="login form">
+    <form action="${action}" method="post" class="login form" id="loginForm">
         <input type="hidden" name="query" value="${query}"/>
         <input type="hidden" name="acr_values" value="${acr}"/>
         ## <input type="hidden" name="url" id="url" value="${url}"/>
         <table>
             <tr>
                 <td>${login_title}</td>
-                <td><input class="form-control" type="text" name="login" value="${login}"/></td>
+                <td><input class="form-control" id="username" type="text" name="login" value="${login}"/></td>
             </tr>
             <tr>
                 <td>${passwd_title}</td>
-                <td><input class="form-control" type="password" name="password"
-                value="${password}"/></td>
+                <td><input class="form-control" id="password" type="password" name="password" value="${password}"/></td>
             </tr>
         </table>
         <input class="form-control" type="hidden" name="url" id="url" value="${url}"/>
-        <div><input class="btn btn-primary btn-lg btn-block top_form" type="submit" name="form.commit"
-                        value="${submit_text}"/></div>
-
+        ## --------New Login Button
+            <input class="btn btn-primary btn-lg btn-block top_form" type="button" onclick="checkFields()" value="New ${submit_text}">
+             ##<input name="username_used" id="username_used" type="number" value="${username_used}" hidden>
+        ##--------------------------
     </form>
     % if logo_uri:
         <img src="${logo_uri}" alt="Client logo">
@@ -59,4 +60,29 @@
     var URLactual = window.location;
     //document.getElementById("url").value = URLactual;
     //console.log("URLLLLLLLLLLLLLLLLLLLL: "+ document.getElementById('url').value);
+
+// -----------My script-----------
+function checkFields() {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+    //var error = document.getElementById('username_used');
+    
+    if(username == "" && password == ""){
+        alert("Username & Password must be filled out");
+        exit(0);
+    }
+    if( username == "" ){
+         alert("Username must be filled out");
+         exit(0);
+    }
+    if( password == "" ){
+        alert("Password must be filled out");
+         exit(0);
+    }
+
+
+    document.getElementById("loginForm").submit();
+}
+//---------------
+
 </script>

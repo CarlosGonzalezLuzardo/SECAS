@@ -6,7 +6,7 @@
     <h1>${title}</h1>
 </div>
 <div class="col-md-6 col-md-offset-3 registration_form top_form" class="block">
-    <form method="post" class="login form">
+    <form method="post" class="login form" id="registrationForm">
         <table class="registration-table">
             <tr>
                 <td  class="col-md-4">${username_title}</td>
@@ -14,37 +14,40 @@
             </tr>
             <tr>
                 <td class="col-md-4">${password_title}</td>
-                <td class="col-md-8"><input class="form-control" type="password" name="password"/></td>
+                <td class="col-md-8"><input class="form-control" type="password" name="password" id="password"/></td>
             </tr>
             <tr>
                 <td class="col-md-4">${password_title2}</td>
-                <td class="col-md-8"><input class="form-control" type="password" name="password2"/></td>
+                <td class="col-md-8"><input class="form-control" type="password" name="password2" id="conf_password"/></td>
             </tr>
             <tr>
                 <td class="col-md-4">${question_title}</td>
-                <td class="col-md-8"><input class="form-control" type="text" name="question" value="${question_title_value}"/></td>
+                <td class="col-md-8"><input class="form-control" type="text" name="question" value="${question_title_value}" id="question"/></td>
             </tr>
             <tr>
                 <td class="col-md-4">${answer_title}</td>
-                <td class="col-md-8"><input class="form-control" type="password" name="answer"/></td>
+                <td class="col-md-8"><input class="form-control" type="password" name="answer" id= "answer"/></td>
             </tr>
             <tr>
                 <td class="col-md-4">${answer_title2}</td>
-                <td class="col-md-8"><input class="form-control" type="password" name="answer2"/></td>
+                <td class="col-md-8"><input class="form-control" type="password" name="answer2" id="conf_answer"/></td>
             </tr>
             <tr>
                 <td class="col-md-4">${audio_title}</td>
                 <td class="col-md-8"><input class="btn btn-secondary btn-block" type="button" name="audioButton" id="audioButton"
-                        value=${audio_button}/></td>
+                        value="${audio_button}"/></td>
             </tr>
         </table>
         <input name="username_used" id="username_used" type="number" value="${username_used}" hidden>
         <div><input class="form-control" type="hidden" name="url" value="${url}"/></div>
-        <div class="submit"><input class="btn btn-primary btn-lg btn-block" type="submit" name="form.commit"
-                        value="${submit_text}"/></div>
+        ##<div class="submit"><input class="btn btn-primary btn-lg btn-block" type="submit" name="form.commit" value="${submit_text}"/></div>
+
+        ## --------New Login Button
+        <input class="btn btn-primary btn-lg btn-block top_form" type="button" onclick="checkFields()" value="New ${submit_text}">
+        ##--------------------------
 
     </form>
-    <a href="${url}"><strong>BACK</strong></a><br>
+    <a href="${url}"><strong>Back to login page</strong></a><br>
 </div>
 
 <%def name="add_js()">
@@ -54,10 +57,12 @@
         });
     </script>
 </%def>
+
+
+
 <script>
 
   var audioButton = document.getElementById('audioButton');
-
   var successes = 0;
 
   audioButton.addEventListener('click', function() {
@@ -101,4 +106,55 @@
           console.log(successes);
       }
   }
+</script>
+
+
+
+<script>
+// -----------My script-----------
+function checkFields() {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+    var conf_password = document.getElementById("conf_password").value;
+    var question = document.getElementById("question").value;
+    var answer = document.getElementById("answer").value;
+    var conf_answer = document.getElementById("conf_answer").value;
+
+    if( username == "" ){
+         alert("Username must be filled out");
+         exit(0);
+    }
+    if( password == "" ){
+        alert("Password must be filled out");
+         exit(0);
+    }
+    if( conf_password == "" ){
+        alert("You must confirm your password");
+         exit(0);
+    }
+    if(password != conf_password){
+        alert("You must repeat correctly your password");
+         exit(0);
+    }
+    if( question == "" ){
+        alert("Question must be filled out");
+         exit(0);
+    }
+    if( answer == "" ){
+        alert("Answer must be filled out");
+         exit(0);
+    }
+    if( conf_answer == "" ){
+        alert("You must confirm your answer");
+         exit(0);
+    }
+    if(answer != conf_answer){
+        alert("You must repeat correctly your answer");
+         exit(0);
+    }
+
+    document.getElementById("registrationForm").submit();
+}
+//---------------
+
 </script>

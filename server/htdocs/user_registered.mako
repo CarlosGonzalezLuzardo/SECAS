@@ -8,6 +8,6 @@
     <p>Insert this code (${totp_secret}) or scan the following QR code in your two-factor authentication app (ie. Google Authenticator).</p>
     <p><img src="data:image/png;base64,${qr_blob}"/></p>
     % if home_uri:
-        <a href="${home_uri}"><strong>BACK</strong></a><br>
+        <a href="${home_uri}"><strong>Back to login page</strong></a><br>
     % endif
 </div>
