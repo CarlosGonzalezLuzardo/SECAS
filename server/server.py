@@ -189,11 +189,13 @@ def pwd_recovery(environ, start_response):
     template_args = {
         'title': 'Password Recovery',
         'username_title': 'Username',
+        'username_used': 'username_used',
         'submit_text': 'Submit',
         'url': environ['HTTP_REFERER']
     }
 
     if (environ['REQUEST_METHOD'] == 'GET'):
+        template_args['username_used'] = 0
         mako_template = LOOKUP.get_template('recover_pwd.mako')
         resp.message = mako_template.render(**template_args).decode('utf-8')
     elif (environ['REQUEST_METHOD'] == 'POST'):

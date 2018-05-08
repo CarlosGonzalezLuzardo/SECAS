@@ -63,15 +63,16 @@ class recovery_module:
                 'title':'Password Recovery',
                 'question':'Question: ',
                 'question_str':question_str,
+                'answer':'Answer:',
                 'submit_text':'Submit',
                 'url': url
             }
-
-
             mako_template = LOOKUP.get_template(self.mako_template2)
             resp.message = mako_template.render(**template_args)
+
         except RuntimeError:
             resp = BadRequest("Username not found")
+            
         return resp
 
         # return UserManager._read_lostqstn(username)
@@ -93,7 +94,7 @@ class recovery_module:
                 template_args = {
                     'title':'Password Recovery',
                     'password_title':'New password: ',
-                    'newpassword_title':'New password: ',
+                    'newpassword_title':'Confirm new password: ',
                     'submit_text':'Submit',
                     'url': url
                 }
@@ -132,7 +133,7 @@ class recovery_module:
                 'username': self.username,
                 'totp_secret': totp_secret,
                 'qr_blob': qr_code.png_as_base64_str(scale=5),
-                'home_uri': url
+                'home_url': url
             }
 
             mako_template = LOOKUP.get_template('modify_totp.mako')
