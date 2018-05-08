@@ -393,12 +393,13 @@ def voiceRegistration(environ, start_response):
     template_args = {
         "title": "Biometric registration",
         "file_label": "Voiceprint recording:",
-        "button_label": "Submit voiceprint:",
+        "button_label": "Submit voiceprint (Check before submit it):",
         "username": environ['QUERY_STRING'].split('=')[1],
         "submit_text": "Submit",
         "action": environ['REQUEST_URI'],
         "nsuccess": 0,
-        "nfailures": 0
+        "nfailures": 0,
+        "nalert": 0
     }
     userData = [template_args['username'], 'English', 'Mixed', 'my voice is my password']
     # GET should start the enrollment method
@@ -437,7 +438,7 @@ def voiceRegistration(environ, start_response):
         registration_info = urllib_parse_qs(environ['wsgi.input'].read().decode('utf-8'))
         nsuccess = int(registration_info['nsuccess'][0])
         nfailures = int(registration_info['nfailures'][0])
-        orig_pkg = registration_info['thefile'][0]
+        orig_pkg = registration_info['thefile2'][0]
 
         biom = BiometricEnrollment(userData, nsuccess, nfailures)
 
@@ -475,21 +476,31 @@ def voiceRegistration(environ, start_response):
         except:
             raise
 
-        if (result[0] == 0):
+        if (result[0] == True):
             template_args["nsuccess"] = nsuccess + 1
+            template_args["nfailures"] = nfailures
+            template_args["nalert"] = 0
+
         else:
             template_args["nfailures"] = nfailures + 1
+            template_args["nsuccess"] = nsuccess
+            template_args["nalert"] = 1
 
     if (not username_used1):
-        if (not result[1]):
+        if ((result[0] == False) and (result[1] == False)):
             mako_template = LOOKUP.get_template('biom_enroll.mako')
             resp.message = mako_template.render(**template_args).decode("utf-8")
             resp.headers = headers
-        elif (not result[0]):
-            cookie['status'] = 'invalid'
-            cookieheaders = ('Set-Cookie', cookie['status'].OutputString())
-            headers = [cookieheaders, ('content-type', 'text/html')]
-            resp = Response("VoicePrint invalid")
+        elif ((result[0] == True) and (result[1] == False)):
+            mako_template = LOOKUP.get_template('biom_enroll.mako')
+            resp.message = mako_template.render(**template_args).decode("utf-8")
+            resp.headers = headers
+        elif ((result[0] == False) and (result[1] == True)):
+            mako_template = LOOKUP.get_template('biom_enroll.mako')
+            resp.message = mako_template.render(**template_args).decode("utf-8")
+            resp.headers = headers
+            template_args['nfailures'] = 3
+            template_args["nalert"] = 0
         elif ((result[0] == True) and (result[1] == True)):
             template_args['nsuccess'] = 3
             mako_template = LOOKUP.get_template('biom_enroll.mako')

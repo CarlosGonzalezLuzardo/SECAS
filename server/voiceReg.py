@@ -55,9 +55,13 @@ class BiometricEnrollment():
 
         if ( a['ResultCode'] == 0):
             self.nsuccess=self.nsuccess+1
-            return True,self.nsuccess==self.slimit, 1
-        self.nerrors=self.nerrors+1
-        return False,self.nerrors==self.elimit, 1
+            return True,True, 1
+        elif ((a['ResultCode'] == 1) or (a['ResultCode'] == 2)):
+            self.nsuccess=self.nsuccess+1
+            return True, False, 1
+        else:
+            self.nerrors=self.nerrors+1
+            return False,self.nerrors==self.elimit, 1
 
 
     def _cancel(self):
