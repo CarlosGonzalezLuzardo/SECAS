@@ -5,7 +5,7 @@ STOP_RENDERING = runtime.STOP_RENDERING
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1511197990.2156968
+_modified_time = 1525425213.1886725
 _enable_loop = True
 _template_filename = 'htdocs/new_pwd.mako'
 _template_uri = 'new_pwd.mako'
@@ -31,18 +31,22 @@ def render_body(context,**pageargs):
         title = context.get('title', UNDEFINED)
         password_title = context.get('password_title', UNDEFINED)
         newpassword_title = context.get('newpassword_title', UNDEFINED)
+        url = context.get('url', UNDEFINED)
         submit_text = context.get('submit_text', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\n\n<div class="col-md-4 col-md-offset-4 header">\n    <h1>')
         __M_writer(str(title))
-        __M_writer('</h1>\n</div>\n<div class="col-md-4 col-md-offset-4 registration_form top_form" class="block">\n    <form method="post" class="login form">\n        <table class="col-md-12">\n            <tr>\n                <td>')
+        __M_writer('</h1>\n</div>\n<div class="col-md-4 col-md-offset-4 registration_form top_form" class="block">\n    <form method="post" class="login form">\n        <table>\n            <tr>\n                <td>')
         __M_writer(str(password_title))
         __M_writer('</td>\n                <td><input class="form-control" type="password" name="password"/></td>\n            </tr>\n            <tr>\n                <td>')
         __M_writer(str(newpassword_title))
-        __M_writer('</td>\n                <td><input class="form-control" type="password" name="newpassword"/></td>\n            </tr>\n            <tr>\n           </table>\n                <div><input class="btn btn-primary btn-lg btn-block" type="submit" name="form.commit"\n                        value="')
+        __M_writer('</td>\n                <td><input class="form-control" type="password" name="newpassword"/></td>\n            </tr>\n        </table>\n            <div><input class="form-control" type="hidden" name="url" value="')
+        __M_writer(str(url))
+        __M_writer('"/></div>\n            <div><input class="btn btn-primary btn-lg btn-block" type="submit" name="form.commit"\n                        value="')
         __M_writer(str(submit_text))
-        __M_writer('"/></div>\n       </form>\n</div>\n\n')
-        __M_writer('\n')
+        __M_writer('"/></div>\n    </form>\n    <a href="')
+        __M_writer(str(url))
+        __M_writer('"><strong>BACK</strong></a><br>\n</div>\n\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -60,6 +64,6 @@ def render_add_js(context):
 
 """
 __M_BEGIN_METADATA
-{"source_encoding": "utf-8", "filename": "htdocs/new_pwd.mako", "line_map": {"36": 1, "37": 4, "38": 4, "39": 10, "40": 10, "41": 14, "42": 14, "43": 20, "44": 20, "45": 32, "51": 26, "55": 26, "27": 0, "61": 55}, "uri": "new_pwd.mako"}
+{"line_map": {"65": 59, "59": 25, "37": 1, "38": 4, "39": 4, "40": 10, "41": 10, "42": 14, "43": 14, "44": 18, "45": 18, "46": 20, "47": 20, "48": 22, "49": 22, "55": 25, "27": 0}, "filename": "htdocs/new_pwd.mako", "uri": "new_pwd.mako", "source_encoding": "utf-8"}
 __M_END_METADATA
 """

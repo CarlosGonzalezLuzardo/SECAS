@@ -38,7 +38,7 @@ LOC = {
     "en": {
         "title": "Biometric authentication",
         "file_label": "Voiceprint recording:",
-        "button_label": "Submit voiceprint:",
+        "button_label": "Submit voiceprint (Check before submit it):",
         "submit_text": "Submit",
         "client_policy_title": "Client Policy"},
     "se": {
@@ -207,7 +207,7 @@ class BiometricAuthn(UserAuthnMethod):
         else:
             raise ValueError("Wrong type of input")
 
-        orig_pkg = _dict["thefile"][0]
+        orig_pkg = _dict["thefile2"][0]
         orig_audio=base64.b64decode(orig_pkg)
         head, data = orig_audio.decode('ascii').split(',')
         data = base64.b64decode(data)

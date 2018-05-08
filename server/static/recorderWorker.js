@@ -61,8 +61,9 @@ function exportWAV(type){
   var interleaved = interleave(bufferL, bufferR);
   var dataview = encodeWAV(interleaved, true);
   var audioBlob = new Blob([dataview], { type: type });
-
+    console.log('exportWAV');
   this.postMessage(audioBlob);
+
 }
 
 function exportMonoWAV(type){
@@ -73,7 +74,8 @@ function exportMonoWAV(type){
   var audioBlob = new Blob([dataview], { type: type });
 
   this.postMessage(audioBlob);
-  console.log('aqui3');
+
+  console.log('exportMonoWAV');
 }
 
 // for changing the sampling rate, data,
@@ -116,7 +118,7 @@ function mergeBuffers(recBuffers, recLength){
     result.set(recBuffers[i], offset);
     offset += recBuffers[i].length;
   }
-  console.log('aqui2');
+  console.log('mergeBuffers');
   return result;
 }
 
@@ -140,7 +142,7 @@ function floatTo16BitPCM(output, offset, input){
     var s = Math.max(-1, Math.min(1, input[i]));
     output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
   }
-  console.log('floatTo16');
+  console.log('floatTo16BitPCM');
 }
 
 function writeString(view, offset, string){
@@ -180,6 +182,6 @@ function encodeWAV(samples, mono){
   /* data chunk length */
   view.setUint32(40, samples.length * 2, true);
   floatTo16BitPCM(view, 44, samples);
-console.log('Aqui');
+console.log('encodeWAV');
   return view;
 }
