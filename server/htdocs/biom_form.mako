@@ -106,15 +106,17 @@
             <button type="button" class="btn btn-danger" id="stop-btn" ><span class="glyphicon glyphicon-stop"></span> Stop recording</button>
         </p>
         <audio id="player2" controls></audio>
-        <form name="biom" id="biom" action="${action}" class="login form" method="post">
+
+        <form name="biom2" id="biom2" action="${action}" class="login form" method="post">
             <table>
                 <input type="visible" name="username" value="${username}"/>
-                <input name="thefile2" id="thefile2" type="text" value='' visible>
+                <input name="thefile2" id="thefile2" type="text" value="${thefile2}" visible />
                 <ul id="recordingslist"></ul>
             </table>
             <p>${button_label}</p>
-            <div><input class="btn btn-primary btn-lg btn-block" type="submit" value=${submit_text} /></div>
-
+        ## --------New Login Button
+            <input class="btn btn-primary btn-lg btn-block top_form" type="button" onclick="checkFields()" value="New ${submit_text}">
+        ##--------------------------
         </form>
         <a href="${url}"><strong>BACK</strong></a><br>
     </div>
@@ -280,6 +282,22 @@
 
             }, false);
         };
+
+
+        function checkFields() {
+        var file2 = document.getElementById('thefile2');
+
+        console.log('checkFields');
+        if(file2.value == ''){
+            alert("No voice record found");
+        }
+        else {
+            document.getElementById("biom2").submit();
+        }
+
+
+    }
+
     </script>
 
     <!-- Include the recorder.js library from a local copy -->

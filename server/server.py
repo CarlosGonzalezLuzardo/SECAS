@@ -216,6 +216,13 @@ def pwd_recovery(environ, start_response):
             recover_unit = recovery_module(username)
             resp = recover_unit.show_question(url)
 
+            if not UserManager.verify_username(username):
+                template_args['username_used'] = 2
+                mako_template = LOOKUP.get_template('recover_pwd.mako')
+                resp.message = mako_template.render(**template_args).decode('utf-8')
+
+
+
             ################
             # Cookie break #
             cookie = SimpleCookie()

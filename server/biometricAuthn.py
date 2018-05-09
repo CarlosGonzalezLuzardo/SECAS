@@ -40,7 +40,8 @@ LOC = {
         "file_label": "Voiceprint recording:",
         "button_label": "Submit voiceprint (Check before submit it):",
         "submit_text": "Submit",
-        "client_policy_title": "Client Policy"},
+        "client_policy_title": "Client Policy",
+        "thefile2": ""},
     "se": {
         "title": u"Biometrisk autentisering",
         "file_label": u"Välj en fil att ladda upp:",
@@ -227,7 +228,8 @@ class BiometricAuthn(UserAuthnMethod):
                 return resp, False
             else:
                 self.nerror = self.nerror+1
-
+                resp = Unauthorized("Voice not recognized")
+                return resp, False
                 raise
         else:
             # If I remove this header, authentication enters in a infinite loop.

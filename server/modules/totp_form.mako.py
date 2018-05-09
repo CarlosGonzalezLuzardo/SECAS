@@ -5,7 +5,7 @@ STOP_RENDERING = runtime.STOP_RENDERING
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1525278327.839504
+_modified_time = 1525793182.8579879
 _enable_loop = True
 _template_filename = 'htdocs/totp_form.mako'
 _template_uri = 'totp_form.mako'
@@ -28,16 +28,14 @@ def render_body(context,**pageargs):
     __M_caller = context.caller_stack._push_frame()
     try:
         __M_locals = __M_dict_builtin(pageargs=pageargs)
-        url = context.get('url', UNDEFINED)
-        form_action = context.get('form_action', UNDEFINED)
-        query = context.get('query', UNDEFINED)
-        title = context.get('title', UNDEFINED)
-        acr = context.get('acr', UNDEFINED)
         username = context.get('username', UNDEFINED)
+        query = context.get('query', UNDEFINED)
+        form_action = context.get('form_action', UNDEFINED)
+        acr = context.get('acr', UNDEFINED)
+        url = context.get('url', UNDEFINED)
         __M_writer = context.writer()
-        __M_writer('\n\n<div class="col-md-4 col-md-offset-4 header">\n    <h1>')
-        __M_writer(str(title))
-        __M_writer('</h1>\n</div>\n\n<div class="col-md-4 col-md-offset-4 login_form top_form" class="block">\n    <form action="')
+        __M_writer('\n\n<div class="col-md-4 col-md-offset-4 header">\n')
+        __M_writer('</div>\n\n<div class="col-md-4 col-md-offset-4 login_form top_form" class="block">\n    <form action="')
         __M_writer(str(form_action))
         __M_writer('">\n        <input type="hidden" name="query" value="')
         __M_writer(str(query))
@@ -49,7 +47,7 @@ def render_body(context,**pageargs):
         __M_writer(str(url))
         __M_writer('"/>\n        <input class="btn btn-primary btn-lg btn-block" type="submit"><br/>\n    </form>\n    <a href="')
         __M_writer(str(url))
-        __M_writer('"><strong>BACK</strong></a><br>\n</div>\n\n')
+        __M_writer('"><strong>Back to login page</strong></a><br>\n</div>\n\n')
         return ''
     finally:
         context.caller_stack._pop_frame()
@@ -67,6 +65,6 @@ def render_add_js(context):
 
 """
 __M_BEGIN_METADATA
-{"source_encoding": "utf-8", "uri": "totp_form.mako", "filename": "htdocs/totp_form.mako", "line_map": {"68": 62, "38": 1, "39": 4, "40": 4, "41": 8, "42": 8, "43": 9, "44": 9, "45": 10, "46": 10, "47": 11, "48": 11, "49": 15, "50": 15, "51": 18, "52": 18, "58": 21, "27": 0, "62": 21}}
+{"line_map": {"66": 60, "37": 1, "38": 5, "39": 8, "40": 8, "41": 9, "42": 9, "43": 10, "44": 10, "45": 11, "46": 11, "47": 15, "48": 15, "49": 18, "50": 18, "56": 21, "27": 0, "60": 21}, "uri": "totp_form.mako", "filename": "htdocs/totp_form.mako", "source_encoding": "utf-8"}
 __M_END_METADATA
 """
