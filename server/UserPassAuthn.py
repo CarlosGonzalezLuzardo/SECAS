@@ -31,7 +31,8 @@ LOC = {
         "submit_text": "Submit",
         "client_policy_title": "Client Policy",
         "recover_uri":'recover_user',
-        "register_uri":'register_user'},
+        "register_uri":'register_user', ##register_uri
+        "wrong_value": 0},
     "se": {
         "title": "Logga in",
         "login_title": u"Användarnamn",

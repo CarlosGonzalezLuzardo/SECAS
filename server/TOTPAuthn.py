@@ -27,7 +27,8 @@ LOC = {
         "login_title": "Username",
         "passwd_title": "Password",
         "submit_text": "Submit",
-        "client_policy_title": "Client Policy"},
+        "client_policy_title": "Client Policy",
+        "wrong_value": 0},
     "se": {
         "title": "Logga in",
         "login_title": u"Användarnamn",
@@ -165,6 +166,21 @@ class TOTPAuthn(UserAuthnMethod):
             assert (True == totp_generator.verify(_dict["totp"][0]))
         except (AssertionError, KeyError):
             resp = Unauthorized("Wrong TOTP")
+            ##resp = Unauthorized("Unknown user or wrong password")
+
+            kwargs["request"] = request
+            kwargs["form_action"] = kwargs["url"]
+            argv = self.templ_arg_func(0, **kwargs)
+            argv['wrong_value'] = 1
+            argv['form_action'] = kwargs["baseurl"] + "/totp_login"
+            argv['username'] = _dict['username'][0]
+            argv['acr'] = argv['form_action']
+            argv['title'] = 'TOTP verification'
+            mte = self.template_lookup.get_template('totp_form.mako')
+            resp.message = mte.render(**argv).decode("utf-8")
+
+            return resp, False
+
             return resp, False
         else:
             # If I remove this header, authentication enters in a infinite loop.

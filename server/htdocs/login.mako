@@ -1,13 +1,15 @@
 <%inherit file="root.mako" />
+<body onload="myFunction()">
+
 <div class="col-md-4 col-md-offset-4 header">
      ##<h1><a href="/">${title}</a></h1>
     <h1><font color="#428bca">${title}</font></h1>
 </div>
 <div class="col-md-4 col-md-offset-4 login_form top_form" class="block">
     <form action="${action}" method="post" class="login form" id="loginForm">
-        <input type="hidden" name="query" value="${query}"/>
-        <input type="hidden" name="acr_values" value="${acr}"/>
-        ## <input type="hidden" name="url" id="url" value="${url}"/>
+        <input type="visible" name="query" value="${query}"/>
+        <input type="visible" name="acr_values" value="${acr}"/>
+        ## <input type="visible" name="url" id="url" value="${url}"/>
         <table>
             <tr>
                 <td>${login_title}</td>
@@ -18,10 +20,11 @@
                 <td><input class="form-control" id="password" type="password" name="password" value="${password}"/></td>
             </tr>
         </table>
-        <input class="form-control" type="hidden" name="url" id="url" value="${url}"/>
+        <td><input class="form-control" id="wrong_value" type="number" name="wrong_value" value="${wrong_value}" visible/></td>
+        <input class="form-control" type="visible" name="url" id="url" value="${url}"/>
         ## --------New Login Button
             <input class="btn btn-primary btn-lg btn-block top_form" type="button" onclick="checkFields()" value="New ${submit_text}">
-             ##<input name="username_used" id="username_used" type="number" value="${username_used}" hidden>
+             ##<input name="username_used" id="username_used" type="number" value="${username_used}" visible>
         ##--------------------------
     </form>
     % if logo_uri:
@@ -83,6 +86,27 @@ function checkFields() {
 
     document.getElementById("loginForm").submit();
 }
+
+function myFunction(){
+    var wrong_value = document.getElementById('wrong_value');
+
+    console.log('myFunction');
+    console.log(wrong_value.value);
+    if(wrong_value.value == 1){
+        alert("Unknown user or wrong password");
+        window.location.href = document.getElementById('url').value;
+    }
+    if(wrong_value.value == 2){
+        alert("Wrong Password");
+        window.location.href = document.getElementById('url').value;
+    }
+    if(wrong_value.value == 3){
+        window.location.href = document.getElementById('url').value;
+        alert("Biometric Authentication Failed");
+        ##window.location.href = document.getElementById('url').value;
+    }
+  }
+
 //---------------
 
 </script>

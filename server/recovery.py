@@ -65,6 +65,7 @@ class recovery_module:
                 'question_str':question_str,
                 'answer':'Answer:',
                 'submit_text':'Submit',
+                'wrong_answer': 0,
                 'url': url
             }
             mako_template = LOOKUP.get_template(self.mako_template2)
@@ -100,6 +101,19 @@ class recovery_module:
                 }
 
                 mako_template = LOOKUP.get_template(self.mako_template3)
+                resp.message = mako_template.render(**template_args)
+            else:
+                template_args = {
+                    'title': 'Password Recovery',
+                    'question': 'Question: ',
+                    'question_str': self.username,
+                    'answer': 'Answer:',
+                    'submit_text': 'Submit',
+                    'wrong_answer': 1,
+                    'url': url
+                }
+
+                mako_template = LOOKUP.get_template(self.mako_template2)
                 resp.message = mako_template.render(**template_args)
         except RuntimeError:
             resp = BadRequest("Username not found")

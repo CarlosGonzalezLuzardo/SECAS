@@ -1,5 +1,9 @@
 <%inherit file="root.mako" />
 
+<body onload="myFunction()">
+
+<!--
+
 <div class="col-md-4 col-md-offset-4 header">
     <h1>${title}</h1>
 </div>
@@ -72,7 +76,7 @@
     </script>
 
 </%def>
-
+//-->
 
 ## <!DOCTYPE html>
 ## <html>
@@ -109,8 +113,10 @@
 
         <form name="biom2" id="biom2" action="${action}" class="login form" method="post">
             <table>
-                <input type="visible" name="username" value="${username}"/>
-                <input name="thefile2" id="thefile2" type="text" value="${thefile2}" visible />
+                <input type="hidden" name="username" value="${username}" id="username"/>
+                <input name="thefile2" id="thefile2" type="text" value="${thefile2}" hidden />
+                <input class="form-control" type="hidden" name="url" id="url" value="${url}"/>
+                <input type="hidden" name="wrong_value" value="${wrong_value}" id="wrong_value"/>
                 <ul id="recordingslist"></ul>
             </table>
             <p>${button_label}</p>
@@ -224,6 +230,20 @@
 
         // Initialize everything once the window loads
         window.onload = function(){
+
+            var wrong_value = document.getElementById('wrong_value');
+
+            console.log('myFunction');
+
+            if(wrong_value.value == 1){
+                ##window.location.href = document.getElementById('url').value;
+                alert("Voice not recognized");
+            }
+            if(wrong_value.value == 3){
+                window.location.href = document.getElementById('url').value;
+                alert("Biometric Authentication Failed");
+                ##window.location.href = document.getElementById('url').value;
+            }
             // Prepare and check if requirements are filled
             Initialize();
 
@@ -286,17 +306,37 @@
 
         function checkFields() {
         var file2 = document.getElementById('thefile2');
+        var username = document.getElementById('username').value;
 
         console.log('checkFields');
         if(file2.value == ''){
             alert("No voice record found");
         }
         else {
+            //var url = "biom_form?id=" + username;
+            //var childWin = window.open(url, "Voiceprint enrollment", "width=500,height=350");
             document.getElementById("biom2").submit();
         }
 
 
-    }
+        }
+
+
+        function myFunction(){
+        var wrong_value = document.getElementById('wrong_value');
+
+        console.log('myFunction');
+
+        if(wrong_value.value == 1){
+            window.location.href = document.getElementById('url').value;
+            alert("Voice not recognized");
+        }
+        if(wrong_value.value == 3){
+            window.location.href = document.getElementById('url').value;
+            alert("Biometric Authentication Failed");
+            ##window.location.href = document.getElementById('url').value;
+        }
+         }
 
     </script>
 

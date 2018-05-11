@@ -1,5 +1,7 @@
 <%inherit file="root.mako" />
 
+<body onload="myFunction()">
+
 <div class="col-md-4 col-md-offset-4 header">
 <h1>${title}</h1>
 </div>
@@ -12,6 +14,7 @@
             <tr>
                 <td>${answer}</td>
                 <td><input class="form-control" id="answer"type="text" name="question_ans"/></td>
+                <td><input class="form-control" id="wrong_answer" type="number" name="wrong_answer" value="${wrong_answer}"visible/></td>
             </tr>
         </table>
         <div><input class="form-control" type="hidden" name="url" value="${url}"/></div>
@@ -43,6 +46,17 @@ function checkFields() {
 
     document.getElementById("recoveryQuestionForm").submit();
 }
+
+
+function myFunction(){
+    var wrong = document.getElementById('wrong_answer');
+
+    console.log('myFunction');
+    console.log(wrong.value);
+    if(wrong.value == 1){
+        alert("Wrong Answer");
+    }
+  }
 //---------------
 
 </script>

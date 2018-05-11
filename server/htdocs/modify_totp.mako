@@ -11,6 +11,6 @@
     <p><img src="data:image/png;base64,${qr_blob}"/></p>
     ## <input class="btn btn-secondary btn-block" type="button" name="back" id="back" value=${home_uri}/>
     % if home_url:
-        <a href="${home_url}"><strong>BACK</strong></a><br>
+        <a href="${home_url}"><strong>Back to login page</strong></a><br>
     % endif
 </div

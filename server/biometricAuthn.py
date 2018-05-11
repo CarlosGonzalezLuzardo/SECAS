@@ -41,7 +41,8 @@ LOC = {
         "button_label": "Submit voiceprint (Check before submit it):",
         "submit_text": "Submit",
         "client_policy_title": "Client Policy",
-        "thefile2": ""},
+        "thefile2": "",
+        "wrong_value": 0},
     "se": {
         "title": u"Biometrisk autentisering",
         "file_label": u"Välj en fil att ladda upp:",
@@ -225,10 +226,37 @@ class BiometricAuthn(UserAuthnMethod):
             if (self.nerror>=3):
                 self.nerror = 0
                 resp = Unauthorized("Voice not recognized")
+
+                kwargs["request"] = request
+                kwargs["form_action"] = kwargs["url"]
+                argv = self.templ_arg_func(0, **kwargs)
+                argv['wrong_value'] = 3
+                argv['form_action'] = kwargs["baseurl"] + "/user_password"
+                argv['login_title'] = "Username"
+                argv['passwd_title'] = "Password"
+                argv['acr'] = argv['form_action']
+                argv['title'] = 'User log in'
+                mte = self.template_lookup.get_template('login.mako')
+                resp.message = mte.render(**argv).decode("utf-8")
+
                 return resp, False
             else:
                 self.nerror = self.nerror+1
                 resp = Unauthorized("Voice not recognized")
+
+                kwargs["request"] = request
+                kwargs["form_action"] = kwargs["url"]
+                argv = self.templ_arg_func(0, **kwargs)
+                argv['wrong_value'] = 1
+                argv['form_action'] = kwargs["baseurl"] + "/biom_login"
+                argv['username'] = _dict['username'][0]
+                argv['acr'] = argv['form_action']
+                argv['title'] = 'TOTP verification'
+                argv['recover_uri'] = "recover_user"
+                argv['register_uri'] = "register_user"
+                mte = self.template_lookup.get_template('biom_form.mako')
+                resp.message = mte.render(**argv).decode("utf-8")
+
                 return resp, False
                 raise
         else:

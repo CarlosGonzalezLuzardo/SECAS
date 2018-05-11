@@ -156,6 +156,32 @@ def clear_keys(self, environ, start_response, _):
 
 # --------------------------------------------------------------------------
 
+def test(environ, start_response):
+    resp = Response("OK3")
+    template_args = {
+        'title': 'Password Update',
+        'username_title': 'Username',
+        'password_title': 'Old Password',
+        'newpassword_title': 'New Password',
+        'submit_text': 'Submit'
+    }
+    if (environ['REQUEST_METHOD'] == 'GET'):
+        mako_template = LOOKUP.get_template('modify_pwd.mako')
+        resp.message = mako_template.render(**template_args).decode('utf-8')
+    elif (environ['REQUEST_METHOD'] == 'POST'):
+        registration_info = urllib_parse_qs(environ['wsgi.input'].read().decode('utf-8'), True)
+
+        username = registration_info['username'][0]
+        password = registration_info['password'][0]
+        newpassword = registration_info['newpassword'][0]
+
+        if newpassword != '':
+            resp = Modifier_module.modify_password(username, password, newpassword)
+        else:
+            resp = Modifier_module.modify_totp(username, password)
+
+    return resp(environ, start_response)
+
 
 def modifier(environ, start_response):
     resp = Response("OK3")
@@ -186,21 +212,24 @@ def modifier(environ, start_response):
 
 def pwd_recovery(environ, start_response):
     resp = Response("Fail in pass_recovery")
+
     template_args = {
         'title': 'Password Recovery',
         'username_title': 'Username',
         'username_used': 'username_used',
         'submit_text': 'Submit',
         'url': environ['HTTP_REFERER']
+
     }
 
     if (environ['REQUEST_METHOD'] == 'GET'):
+        template_args['url']= environ['HTTP_REFERER']
         template_args['username_used'] = 0
         mako_template = LOOKUP.get_template('recover_pwd.mako')
         resp.message = mako_template.render(**template_args).decode('utf-8')
     elif (environ['REQUEST_METHOD'] == 'POST'):
         registration_info = urllib_parse_qs(environ['wsgi.input'].read().decode('utf-8'), True)
-
+        url = registration_info['url'][0]
         ################
         # Cookie break #
         if 'HTTP_COOKIE' in environ:
@@ -217,6 +246,7 @@ def pwd_recovery(environ, start_response):
             resp = recover_unit.show_question(url)
 
             if not UserManager.verify_username(username):
+                template_args['url'] = url
                 template_args['username_used'] = 2
                 mako_template = LOOKUP.get_template('recover_pwd.mako')
                 resp.message = mako_template.render(**template_args).decode('utf-8')
@@ -303,7 +333,8 @@ def register_user(environ, start_response):
             'submit_text': 'Submit',
             'username_used': 0,
             'username_title_value': "",
-            'question_title_value': ""
+            'question_title_value': "",
+            'url': url
         }
         if UserManager.verify_username(username):
             username_used1 = True
@@ -597,7 +628,8 @@ class Application(object):
             (r'^biom_enroll', voiceRegistration),
             (r'^register_user', register_user),
             (r'^recover_user', pwd_recovery),
-            (r'^modify_user', modifier)
+            (r'^modify_user', modifier),
+            (r'^test', test)
         ])
 
         self.add_endpoints(self.endpoints)
