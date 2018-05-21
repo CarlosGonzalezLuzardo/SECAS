@@ -1,5 +1,6 @@
 # BASE = "https://lingon.ladok.umu.se"
-BASE = "https://localhost"
+##BASE = "https://localhost"
+BASE = "https://172.16.3.159"
 
 # If BASE is https these has to be specified
 SERVER_CERT = "certs/server.crt"

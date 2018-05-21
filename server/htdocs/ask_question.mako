@@ -9,14 +9,16 @@
     <form method="post" class="login form" id="recoveryQuestionForm">
         <table>
             <tr>
-                <td>${question}${question_str}</td>
+                <td>${question}</td>
+                <td>${question_str}</td>
             </tr>
             <tr>
                 <td>${answer}</td>
-                <td><input class="form-control" id="answer"type="text" name="question_ans"/></td>
-                <td><input class="form-control" id="wrong_answer" type="number" name="wrong_answer" value="${wrong_answer}"visible/></td>
+                <td><input class="form-control" id="answer"type="text" name="question_ans" onkeyup='check_answer();'/></td>
+                <td><input class="form-control" id="wrong_answer" type="hidden" name="wrong_answer" value="${wrong_answer}"hidden/></td>
             </tr>
         </table>
+        <p style="display:inline; color:red;"  name="wrong_code" id="wrong_code" ></p>
         <div><input class="form-control" type="hidden" name="url" value="${url}"/></div>
          ## --------New Button----------------
         <input class="btn btn-primary btn-lg btn-block top_form" type="button" onclick="checkFields()" value="New ${submit_text}">
@@ -40,7 +42,9 @@ function checkFields() {
     var answer = document.getElementById("answer").value;
     
     if( answer == "" ){
-         alert("Answer must be filled out");
+         //alert("Answer must be filled out");
+         wrong_code.innerHTML = "Answer must be filled out";
+         document.getElementById("answer").style.borderColor = "red";
          exit(0);
     }
 
@@ -54,9 +58,16 @@ function myFunction(){
     console.log('myFunction');
     console.log(wrong.value);
     if(wrong.value == 1){
-        alert("Wrong Answer");
+        //alert("Wrong Answer");
+        wrong_code.innerHTML = "Wrong answer";
+        document.getElementById("answer").style.borderColor = "red";
     }
   }
+
+  var check_answer = function(){
+        document.getElementById("answer").style.borderColor = "#d3d3d3";
+        document.getElementById("wrong_code").innerHTML = "  ";
+    }
 //---------------
 
 </script>

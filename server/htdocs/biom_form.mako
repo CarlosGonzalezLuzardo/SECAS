@@ -17,8 +17,8 @@
     <form name="biom" id="biom" action="${action}" class="login form" method="post"
     >
         <table>
-            <input type="visible" name="username" value="${username}"/>
-            <input name="thefile" id="thefile" type="text" value='' visible>
+            <input type="hidden" name="username" value="${username}"/>
+            <input name="thefile" id="thefile" type="text" value='' hidden>
         </table>
         <p>${button_label}</p>
         <div><input class="btn btn-primary btn-lg btn-block" type="submit" value=${submit_text} /></div>
@@ -120,6 +120,7 @@
                 <ul id="recordingslist"></ul>
             </table>
             <p>${button_label}</p>
+            <p style="display:inline; color:red;"  name="wrong_code" id="wrong_code" ></p>
         ## --------New Login Button
             <input class="btn btn-primary btn-lg btn-block top_form" type="button" onclick="checkFields()" value="New ${submit_text}">
         ##--------------------------
@@ -237,7 +238,8 @@
 
             if(wrong_value.value == 1){
                 ##window.location.href = document.getElementById('url').value;
-                alert("Voice not recognized");
+                ##alert("Voice not recognized");
+                wrong_code.innerHTML = "Voice not recognized";
             }
             if(wrong_value.value == 3){
                 window.location.href = document.getElementById('url').value;

@@ -39,6 +39,22 @@
         "family_name": "Crust",
         "email": "uc@example.com",
         "email_verified": "True"
+    },
+    "carlos": {
+        "sub": "carlitos",
+        "name": "Carlos González",
+        "given_name": "Carlos",
+        "family_name": "González",
+        "nickname": "Carlitos",
+        "email": "carlos@example.org",
+        "email_verified": "False",
+        "phone_number": "+46 90 7865000",
+        "address": {
+            "street_address": "Concepción Arenal",
+            "locality": "Las Palmas",
+            "postal_code": "35212",
+            "country": "Spain"
+        }
     }
 }
 

@@ -1,6 +1,9 @@
 <%inherit file="root.mako" />
 
 <body onload="myFunction()">
+
+<!--
+
 <div class="header">
     <h1>${title}</h1>
 
@@ -26,6 +29,9 @@
         </table>
     </form>
 </div>
+
+//-->
+
 
 <script type="text/javascript">
     function validateForm() {

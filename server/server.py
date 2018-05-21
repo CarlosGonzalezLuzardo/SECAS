@@ -185,11 +185,23 @@ def test(environ, start_response):
 
 def modifier(environ, start_response):
     resp = Response("OK3")
+    ##username = self.username
+    if 'HTTP_COOKIE' in environ:
+        cookie = SimpleCookie(environ['HTTP_COOKIE'])
+        if 'username' in cookie:
+            # handle the cookie value
+            username = cookie['username'].value
+
     template_args = {
         'title': 'Password Update',
         'username_title': 'Username',
+        'username': username,
         'password_title': 'Old Password',
         'newpassword_title': 'New Password',
+        'confnewpassword_title': 'Confirm New Password',
+        'wrong_code': "",
+        'wrong_value': 0,
+        'url': environ['HTTP_REFERER'],
         'submit_text': 'Submit'
     }
     if (environ['REQUEST_METHOD'] == 'GET'):
@@ -198,14 +210,23 @@ def modifier(environ, start_response):
     elif (environ['REQUEST_METHOD'] == 'POST'):
         registration_info = urllib_parse_qs(environ['wsgi.input'].read().decode('utf-8'), True)
 
-        username = registration_info['username'][0]
+        username = username = cookie['username'].value
         password = registration_info['password'][0]
         newpassword = registration_info['newpassword'][0]
+        template_args['url'] = registration_info['url'][0]
 
         if newpassword != '':
             resp = Modifier_module.modify_password(username, password, newpassword)
         else:
             resp = Modifier_module.modify_totp(username, password)
+
+        if (resp[0] == True):
+            template_args['wrong_value'] = 1
+        else:
+            template_args['wrong_value'] = 2
+        resp = Response("OK")
+        mako_template = LOOKUP.get_template('modify_pwd.mako')
+        resp.message = mako_template.render(**template_args).decode('utf-8')
 
     return resp(environ, start_response)
 
@@ -302,7 +323,8 @@ def register_user(environ, start_response):
             'username_used': 'username_used',
             'username_title_value': "",
             'question_title_value': "",
-            'url': environ['HTTP_REFERER']
+            'url': environ['HTTP_REFERER'],
+            'voice_submited': 0
         }
 
         resp = Response("OK51")
@@ -319,6 +341,7 @@ def register_user(environ, start_response):
         answer2 = registration_info['answer2'][0]
         username_used = registration_info['username_used'][0]
         url = registration_info['url'][0]
+        voice_submited = registration_info['voice_submited'][0]
 
         template_args = {
             'title': 'Registration',
@@ -334,7 +357,8 @@ def register_user(environ, start_response):
             'username_used': 0,
             'username_title_value': "",
             'question_title_value': "",
-            'url': url
+            'url': url,
+            'voice_submited': 0
         }
         if UserManager.verify_username(username):
             username_used1 = True
@@ -404,24 +428,92 @@ def register_user(environ, start_response):
                 mako_template = LOOKUP.get_template('registration.mako')
                 resp.message = mako_template.render(**template_args).decode("utf-8")
             else:
-                try:
-                    totp_secret = UserManager.create_user(username, password, question, answer)
-                except RuntimeError:
-                    resp = BadRequest("Username already in use")
-                    totp_secret = 0
-                try:
-                    otpauth_link = 'otpauth://totp/%s?secret=%s' % (username, totp_secret)
-                    qr_code = pyqrcode.create(otpauth_link)
-                    template_args = {
-                        'username': username,
-                        'totp_secret': totp_secret,
-                        'qr_blob': qr_code.png_as_base64_str(scale=5),
-                        'home_uri': url
-                    }
-                except RuntimeError:
-                    resp = BadRequest("There was a problem generating your TOTP")
-                mako_template = LOOKUP.get_template('user_registered.mako')
-                resp.message = mako_template.render(**template_args).decode("utf-8")
+                userData = [username, 'English', 'Mixed', 'my voice is my password']
+                biom = BiometricEnrollment(userData)
+
+                ################
+                # Cookie break #
+                cookie = SimpleCookie()
+                cookie['username'] = username
+                cookie['channel'] = 'English'
+                cookie['type'] = 'Mixed'
+                cookie['utterText'] = 'my voice is my password'
+                cookieheaders = ('Set-Cookie', cookie['username'].OutputString())
+                headers = [cookieheaders, ('content-type', 'text/html')]
+                # add headers without triggering start_response
+                resp.headers = headers
+                #################
+
+                result = biom.getvoiceStatus('SECAS_' + str(cookie['username'].value), cookie['channel'].value,
+                                             cookie['type'].value)
+                if (result[0] == True):
+                    template_args['username_used'] = 4
+                    template_args['username_title_value'] = username
+                    template_args['question_title_value'] = question
+                    mako_template = LOOKUP.get_template('registration.mako')
+                    resp.message = mako_template.render(**template_args).decode("utf-8")
+                else:
+                    try:
+                        totp_secret = UserManager.create_user(username, password, question, answer)
+                    except RuntimeError:
+                        resp = BadRequest("Username already in use")
+                        totp_secret = 0
+                    try:
+                        otpauth_link = 'otpauth://totp/%s?secret=%s' % (username, totp_secret)
+                        qr_code = pyqrcode.create(otpauth_link)
+                        template_args = {
+                            'username': username,
+                            'totp_secret': totp_secret,
+                            'qr_blob': qr_code.png_as_base64_str(scale=5),
+                            'home_uri': url
+                        }
+                    except RuntimeError:
+                        resp = BadRequest("There was a problem generating your TOTP")
+                    mako_template = LOOKUP.get_template('user_registered.mako')
+                    resp.message = mako_template.render(**template_args).decode("utf-8")
+
+
+
+
+
+
+
+    return resp(environ, start_response)
+
+
+def getvoiceStatus(environ, start_response):
+    resp = Response("Voice files added succesfully")
+
+    template_args = {
+        "title": "Biometric registration",
+        "file_label": "Voiceprint recording:",
+        "button_label": "Submit voiceprint (Check before submit it):",
+        "username": environ['QUERY_STRING'].split('=')[1],
+        "submit_text": "Submit",
+        "action": environ['REQUEST_URI'],
+        "nsuccess": 0,
+        "nfailures": 0,
+        "nalert": 0
+    }
+    userData = [template_args['username'], 'English', 'Mixed', 'my voice is my password']
+    biom = BiometricEnrollment(userData)
+
+
+    ################
+    # Cookie break #
+    cookie = SimpleCookie()
+    cookie['username'] = template_args['username']
+    cookie['channel'] = 'English'
+    cookie['type'] = 'Mixed'
+    cookie['utterText'] = 'my voice is my password'
+    cookieheaders = ('Set-Cookie', cookie['username'].OutputString())
+    headers = [cookieheaders, ('content-type', 'text/html')]
+    # add headers without triggering start_response
+    resp.headers = headers
+    #################
+
+    result = biom.getvoiceStatus('SECAS_' + str(cookie['username'].value), cookie['channel'].value,
+                                        cookie['type'].value)
 
     return resp(environ, start_response)
 

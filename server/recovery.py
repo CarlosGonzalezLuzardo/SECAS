@@ -103,10 +103,11 @@ class recovery_module:
                 mako_template = LOOKUP.get_template(self.mako_template3)
                 resp.message = mako_template.render(**template_args)
             else:
+                question_str = UserManager._read_lostqstn(self.username)
                 template_args = {
                     'title': 'Password Recovery',
                     'question': 'Question: ',
-                    'question_str': self.username,
+                    'question_str': question_str,
                     'answer': 'Answer:',
                     'submit_text': 'Submit',
                     'wrong_answer': 1,

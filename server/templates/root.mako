@@ -23,8 +23,8 @@
 <head><title>OpenID Connect provider example</title>
 ${self.css()}
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-##<script src="/static/recorder.js"></script>
-##<script src="/static/main.js"></script>
+<script src="/static/recorder.js"></script>
+<script src="/static/main.js"></script>
 </head>
 <body>
 ${pre()}

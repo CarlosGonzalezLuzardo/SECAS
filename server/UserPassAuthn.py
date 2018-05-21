@@ -70,7 +70,7 @@ class UserPassBcryptMako(UsernamePasswordMako):
         except KeyError:
             action = self.verification_endpoints[end_point_index]
 
-        argv = {"password": "", "action": action, "url": "https://localhost:8092/authorization?"+kwargs["query"]}
+        argv = {"password": "", "action": action, "url": "https://172.16.3.159:8092/authorization?"+kwargs["query"]}
 
         for fro, to in self.param_map.items():
             try:

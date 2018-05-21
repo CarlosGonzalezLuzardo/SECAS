@@ -146,6 +146,7 @@ class BiometricAuthn(UserAuthnMethod):
 
         template_args = self.templ_arg_func(end_point_index, **kwargs)
 
+        self.nerror = 0
         mako_template_engine = self.template_lookup.get_template(self.mako_template)
         resp.message = mako_template_engine.render(**template_args).decode("utf-8")
 
@@ -227,18 +228,30 @@ class BiometricAuthn(UserAuthnMethod):
                 self.nerror = 0
                 resp = Unauthorized("Voice not recognized")
 
+                ##kwargs["request"] = request
+                ##kwargs["form_action"] = kwargs["url"]
+                ##argv = self.templ_arg_func(0, **kwargs)
+                ##argv['wrong_value'] = 3
+                ##argv['form_action'] = kwargs["baseurl"] + "/user_password"
+                ##argv['login_title'] = "Username"
+                ##argv['passwd_title'] = "Password"
+                ##argv['acr'] = argv['form_action']
+                ##argv['title'] = 'User log in'
+                ##mte = self.template_lookup.get_template('login.mako')
+                ##resp.message = mte.render(**argv).decode("utf-8")
+
                 kwargs["request"] = request
                 kwargs["form_action"] = kwargs["url"]
                 argv = self.templ_arg_func(0, **kwargs)
                 argv['wrong_value'] = 3
-                argv['form_action'] = kwargs["baseurl"] + "/user_password"
-                argv['login_title'] = "Username"
-                argv['passwd_title'] = "Password"
+                argv['form_action'] = kwargs["baseurl"] + "/biom_login"
+                argv['username'] = _dict['username'][0]
                 argv['acr'] = argv['form_action']
-                argv['title'] = 'User log in'
-                mte = self.template_lookup.get_template('login.mako')
+                argv['title'] = 'TOTP verification'
+                argv['recover_uri'] = "recover_user"
+                argv['register_uri'] = "register_user"
+                mte = self.template_lookup.get_template('biom_form.mako')
                 resp.message = mte.render(**argv).decode("utf-8")
-
                 return resp, False
             else:
                 self.nerror = self.nerror+1

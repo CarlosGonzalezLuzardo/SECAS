@@ -63,6 +63,14 @@ class BiometricEnrollment():
             self.nerrors=self.nerrors+1
             return False,self.nerrors==self.elimit, 1
 
+    def getvoiceStatus(self,username,content,channel,x=False):
+        result = 0
+        result = self.clientwsdl.service.GetVoicePrintStatus(username, content, channel)
+
+        a = zeep.helpers.serialize_object(result)
+        if (a['ResultCode'] == 0):
+            return True, False, 1
+        return False, False, 1
 
     def _cancel(self):
 

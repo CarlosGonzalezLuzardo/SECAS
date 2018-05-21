@@ -54,9 +54,11 @@ class Modifier_module:
 
             except RuntimeError:
                 resp = BadRequest("Username not found")
+                return False, resp
         else:
             resp = BadRequest("Username/password mismatch")
-        return resp
+            return False, resp
+        return True, resp
 
     def modify_totp(username, password):
         """
