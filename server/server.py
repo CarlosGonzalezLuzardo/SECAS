@@ -6,7 +6,7 @@ import os
 import traceback
 import base64
 import wave
-
+import random
 import io
 import array
 
@@ -31,6 +31,8 @@ from oic.utils.webfinger import WebFinger
 from oic.utils.webfinger import OIC_ISSUER
 from oic.utils.authn.authn_context import AuthnBroker
 from oic.utils.authn.authn_context import make_auth_verify
+from oic.utils.time_util import utc_time_sans_frac
+
 
 __author__ = 'rohe0002'
 
@@ -557,6 +559,11 @@ def voiceRegistration(environ, start_response):
             resp.message = mako_template.render(**template_args).decode("utf-8")
             resp.headers = headers
             username_used1 = True
+
+            #################
+            result = biom.enrollVoicePrintBegin('SECAS_' + str(cookie['username'].value), cookie['channel'].value,
+                                                cookie['type'].value)
+            ###################
         else:
             username_used1 = False
             result = biom.enrollVoicePrintBegin('SECAS_' + str(cookie['username'].value), cookie['channel'].value,
@@ -591,20 +598,22 @@ def voiceRegistration(environ, start_response):
         # wav=pickupVoicePrint()
         # orig_pkg = _dict["thefile"][0]
         orig_audio = base64.b64decode(orig_pkg)
+        print(orig_audio)
         head, data = orig_audio.decode('ascii').split(',')
+        print(data)
         data = base64.b64decode(data)
-
+        print(data)
         # Verify Biometric Authentication
         try:
             # Do verification
             with open('audiofile.wav', 'wb') as f:
                 soundfile = f.write(data)
             with open('audiofile.wav', 'rb') as soundfile:
+                print(soundfile.read())
                 # num_frames = soundfile.getnframes()
                 # str_data = soundfile.readframes(num_frames)
                 # soundfile.close()
-                result = biom.enrollVoicePrintData('SECAS_' + str(cookie['username'].value), utterText,
-                                                   soundfile.read())
+                result = biom.enrollVoicePrintData('SECAS_' + str(cookie['username'].value), utterText,soundfile.read())
         except:
             raise
 
@@ -957,6 +966,56 @@ def generate_biometric_authn():
     biom_endpoint = config.AUTHENTICATION["VoiceVerification"]["END_POINTS"][BIOM_POINT_INDEX]
     return biom_login_authn, biom_endpoint
 
+def secret(seed, sid):
+    msg = "{}{:.6f}{}".format(time.time(), random.random(), sid).encode("utf-8")
+    csum = hmac.new(seed, msg, hashlib.sha224)
+    return csum.hexdigest()
+
+
+def manual_client(self):
+
+    # create new id och secret
+    client_id = rndstr(12)
+    while client_id in self.cdb:
+        client_id = rndstr(12)
+
+    client_secret = secret(self.seed, client_id)
+
+    _rat = rndstr(32)
+    reg_enp = "https://localhost:8092/registration"
+
+    self.cdb[client_id] = {
+        "client_id": client_id,
+        "client_secret": client_secret,
+        "registration_access_token": _rat,
+        "registration_client_uri": "%s?client_id=%s" % (reg_enp, client_id),
+        "client_secret_expires_at": self.client_secret_expiration_time(),
+        "client_id_issued_at": utc_time_sans_frac(),
+        "client_salt": rndstr(8)
+    }
+
+    self.cdb[_rat] = client_id
+    _cinfo = {}
+    _cinfo["application_type"] = "web"
+    _cinfo["contacts"] = "ops@example.com"
+    _cinfo["redirect_uris"] = "http://localhost:4200/home"
+    _cinfo["response_types"] = "code"
+    _cinfo["post_logout_redirect_uris"] = "http://localhost:4200/home"
+
+
+    # Add the client_secret as a symmetric key to the keyjar
+    if client_secret:
+        self.keyjar.add_symmetric(client_id, str(client_secret))
+
+    self.cdb[client_id] = _cinfo
+
+    try:
+        self.cdb.sync()
+    except AttributeError:  # Not all databases can be sync'ed
+        pass
+
+    logger.info("user register manually:")
+
 
 # ----------------------------------------------------------------------------
 
@@ -1109,6 +1168,8 @@ if __name__ == '__main__':
         "OC server started (iss={}, port={})".format(_issuer, args.port))
     print("OC server started (iss={}, port={}) {}".format(_issuer, args.port,
                                                           https))
+
+    #manual_client()
     try:
         SRV.start()
     except KeyboardInterrupt:

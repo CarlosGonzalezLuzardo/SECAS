@@ -1,4 +1,5 @@
 <%inherit file="root.mako" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <body onload="myFunction()">
 
@@ -101,6 +102,8 @@
 
     <div class="col-md-4 col-md-offset-4 header">
         <h1>${title}</h1>
+        <script src="/static/recorder.js"></script>
+        <script src="/static/main.js"></script>
     </div>
     <div class="col-md-4 col-md-offset-4 login_form top_form" class="block">
         <p>You must introduce a different file than others you have already added</p>
@@ -113,10 +116,10 @@
 
         <form name="biom2" id="biom2" action="${action}" class="login form" method="post">
             <table>
-                <input type="hidden" name="username" value="${username}" id="username"/>
+                <input type="text" name="username" value="${username}" id="username" hidden/>
                 <input name="thefile2" id="thefile2" type="text" value="${thefile2}" hidden />
                 <input class="form-control" type="hidden" name="url" id="url" value="${url}"/>
-                <input type="hidden" name="wrong_value" value="${wrong_value}" id="wrong_value"/>
+                <input type="text" name="wrong_value" value="${wrong_value}" id="wrong_value" hidden/>
                 <ul id="recordingslist"></ul>
             </table>
             <p>${button_label}</p>

@@ -38,7 +38,16 @@ class BiometricEnrollment():
     def enrollVoicePrintBegin(self,username,content,channel,x=False):
 
         result = 0
+
+        ######
+        result = self.clientwsdl.service.GetVoicePrintStatus(username, content, channel)
+        ######
+
         result = self.clientwsdl.service.DeleteVoicePrints(username)
+
+        ######
+        result = self.clientwsdl.service.GetVoicePrintStatus(username, content, channel)
+        ######
 
         result = self.clientwsdl.service.EnrollVoicePrintBeginNoResume(username, content, channel)
 

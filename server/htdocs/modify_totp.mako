@@ -1,5 +1,6 @@
 
 <%inherit file="root.mako" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <h1 class="col-md-4 col-md-offset-4 header">Updating TOTP</h1>
 ##<h1> ${home_url} </h1>

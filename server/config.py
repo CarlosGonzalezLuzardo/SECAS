@@ -6,7 +6,8 @@ keys = [
     {"type": "EC", "crv": "P-256", "use": ["enc"]}
 ]
 
-ISSUER='https://172.16.3.159'
+#ISSUER='https://172.16.3.159'
+ISSUER='https://localhost'
 SERVICE_URL = "{issuer}/verify"
 
 USER_PASSWORD_END_POINTS = ["user_password", "multi_user_password_saml_verify",

@@ -40,7 +40,7 @@
         "email": "uc@example.com",
         "email_verified": "True"
     },
-    "carlos": {
+    "Carlos": {
         "sub": "carlitos",
         "name": "Carlos González",
         "given_name": "Carlos",

@@ -1,6 +1,6 @@
 #BASE = "https://lingon.ladok.umu.se"
-#BASE = "http://localhost"
-BASE='http://172.16.3.159'
+BASE = "http://localhost"
+#BASE='http://172.16.3.159'
 
 # If BASE is https these has to be specified
 SERVER_CERT = "certs/server.crt"
@@ -19,6 +19,7 @@ ME = {
     "post_logout_redirect_uris": ["{base}"], ##logout_success
     "response_types": ["code"]
 }
+#    "redirect_uris": ["{base}authz_cb"],
 
 BEHAVIOUR = {
     "response_type": "code",

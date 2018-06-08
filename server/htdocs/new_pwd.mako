@@ -82,8 +82,8 @@ var check_password = function() {
     document.getElementById("new_pwd").style.borderColor = "green";
     document.getElementById("confirm_pwd").style.borderColor = "green";
     document.getElementById("wrong_code").innerHTML = "<br><br>";
-    document.getElementById("new_pwd").style.borderColor = "#d3d3d3";
-    document.getElementById("confirm_pwd").style.borderColor = "#d3d3d3";
+    //document.getElementById("new_pwd").style.borderColor = "#d3d3d3";
+    //document.getElementById("confirm_pwd").style.borderColor = "#d3d3d3";
     document.getElementById("wrong_code").innerHTML = "  ";
   } else {
     document.getElementById('new_pwd').style.color = 'red';
@@ -93,8 +93,8 @@ var check_password = function() {
     //document.getElementById('ok').style.visibility = "hidden";
     document.getElementById("new_pwd").style.borderColor = "red";
     document.getElementById("confirm_pwd").style.borderColor = "red";
-    document.getElementById("new_pwd").style.borderColor = "#d3d3d3";
-    document.getElementById("confirm_pwd").style.borderColor = "#d3d3d3";
+    //document.getElementById("new_pwd").style.borderColor = "#d3d3d3";
+    //document.getElementById("confirm_pwd").style.borderColor = "#d3d3d3";
     document.getElementById("wrong_code").innerHTML = "  ";
   }
 }

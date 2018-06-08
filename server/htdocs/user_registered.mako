@@ -1,4 +1,5 @@
 <%inherit file="root.mako" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <h1 class="col-md-4 col-md-offset-4 header">User registered</h1>
 <div class="col-md-8 col-md-offset-2 login_form">

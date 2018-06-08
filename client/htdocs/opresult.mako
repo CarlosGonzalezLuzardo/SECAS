@@ -37,7 +37,7 @@
               element += "</div>"
         if user_id:
           element += '<h3>And are now known to the RP as:</h3>'
-          element += '<i>'+userid+'</i>'
+          element += '<i>'+user_id+'</i>'
         if userinfo:
           element += '<h3>With the following user information</h3>'
           for key, value in userinfo.items():
@@ -91,6 +91,7 @@
         <h1>OP result</h1>
         ${create_result(userinfo, user_id, id_token)}
     </div>
+
 
 </div>
 <!-- /container -->

@@ -1,4 +1,6 @@
 <%inherit file="root.mako" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <body onload="myFunction()">
 
 <div class="col-md-4 col-md-offset-4 header">

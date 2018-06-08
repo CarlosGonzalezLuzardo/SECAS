@@ -1,4 +1,5 @@
 <%inherit file="root.mako" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <body onload="myFunction()">
 
@@ -18,7 +19,7 @@
     <form name="biom" id="biom" action="${action}" class="login form" method="post"
     >
         <table>
-            <input type="visible" name="username" value="${username}"/>
+            <input type="text" name="username" value="${username}" visible/>
             <input name="thefile" id="thefile" type="text" value='' visible>
             <input name="nsuccess" id="nsuccess" type="number" value="${nsuccess}" visible>
             <input name="nfailures" id="nfailures" type="number" value="${nfailures}" visible>
@@ -76,31 +77,7 @@
       window.opener.shenanigans(true);
   }
 
-  function myFunction(){
-    var failures = document.getElementById('nfailures');
-    var success = document.getElementById('nsuccess');
-    var alert_aux = document.getElementById('nalert');
 
-    console.log('myFunction');
-    if(failures.value == 3){
-        alert("Retry again");
-        window.close();
-    }
-    if(failures.value == 4){
-        alert("Usuario ya existente");
-        window.close();
-    }
-    if(success.value == 3){
-        alert("Archivos subidos correctamente");
-        window.close();
-    }
-    if(alert_aux.value == 1){
-        alert("Bad audio file, please retry");
-    }
-
-    var str = success.value + ' of 3 files uploaded';
-    document.getElementById("status").innerHTML = str;
-  }
 </script>
 
 
@@ -119,6 +96,9 @@
 
 <div id="div2" class="col-md-4 col-md-offset-4 header">
         <h1>${title}</h1>
+        <script src="/static/recorder.js"></script>
+        <script src="/static/main.js"></script>
+
     </div>
     <div class="col-md-4 col-md-offset-4 login_form top_form" class="block">
         <p>You must record the next text:</p>
@@ -132,11 +112,11 @@
         <p id ="status"></p>
         <form name="biom" id="biom" action="${action}" class="login form" method="post">
             <table>
-                <input type="visible" name="username" value="${username}"/>
-                <input name="thefile2" id="thefile2" type="text" value='' visible>
-                <input name="nsuccess" id="nsuccess" type="number" value="${nsuccess}" visible>
-                <input name="nfailures" id="nfailures" type="number" value="${nfailures}" visible>
-                <input name="nalert" id="nalert" type="number" value="${nalert}" visible>
+                <input type="text" name="username" value="${username}" hidden/>
+                <input name="thefile2" id="thefile2" type="text" value='' hidden>
+                <input name="nsuccess" id="nsuccess" type="number" value="${nsuccess}" hidden>
+                <input name="nfailures" id="nfailures" type="number" value="${nfailures}" hidden>
+                <input name="nalert" id="nalert" type="number" value="${nalert}" hidden>
                 <ul id="recordingslist"></ul>
             </table>
             <p>${button_label}</p>
@@ -305,4 +285,32 @@
                 document.getElementById("start-btn").disabled = false;
             }, false);
         };
+
+
+
+        function myFunction(){
+    var failures = document.getElementById('nfailures');
+    var success = document.getElementById('nsuccess');
+    var alert_aux = document.getElementById('nalert');
+
+    console.log('myFunction');
+    if(failures.value == 3){
+        alert("Retry again");
+        window.close();
+    }
+    if(failures.value == 4){
+        alert("Usuario ya existente");
+        window.close();
+    }
+    if(success.value == 3){
+        alert("Archivos subidos correctamente");
+        window.close();
+    }
+    if(alert_aux.value == 1){
+        alert("Bad audio file, please retry");
+    }
+
+    var str = success.value + ' of 3 files uploaded';
+    document.getElementById("status").innerHTML = str;
+  }
     </script>

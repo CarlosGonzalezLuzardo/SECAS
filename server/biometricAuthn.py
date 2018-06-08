@@ -173,6 +173,7 @@ class BiometricAuthn(UserAuthnMethod):
             if utteranceText is not '':
                 isRecog=True
 
+                result = self.clientwsdl.service.GetVoicePrintStatus(userCode, contentCode, channelCode)
             ## wav byte[] Voice data (8kHz 16bit PCM wav format)
             ## wave(nchannels, sampwidth, framerate, nframes, comptype, compname)
             ## ResultCode,ResultText,ResultScore,ResultGender,TransactionId =
@@ -185,11 +186,13 @@ class BiometricAuthn(UserAuthnMethod):
                 #results = self.clientwsdl.service.GetVoicePrintStatus(userCode, contentCode,\
                 #            channelCode)
             #results = [-100,'error test']
-
+            print(results.ResultCode , " --- " , results.ResultText)
             if results.ResultCode < -99:
                 raise AssertionError(results.ResultText)
             if results.ResultCode < 0:
                 raise AssertionError(results.ResultText)
+            ##if results.ResultScore < 95:
+            ##    raise AssertionError(results.ResultText)
 
         except wave.Error:
             raise wave.Error
@@ -209,11 +212,14 @@ class BiometricAuthn(UserAuthnMethod):
             _dict = request
         else:
             raise ValueError("Wrong type of input")
-
+#################################################################################################
         orig_pkg = _dict["thefile2"][0]
         orig_audio=base64.b64decode(orig_pkg)
         head, data = orig_audio.decode('ascii').split(',')
+        ##print(data)
         data = base64.b64decode(data)
+        ##print(data)
+
 
         # Verify Biometric Authentication
         try:
@@ -222,6 +228,7 @@ class BiometricAuthn(UserAuthnMethod):
                 soundfile = f.write(data)
             with open('audiofile.wav', 'rb') as soundfile:
                 print("DICTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT: ", _dict["username"][0])
+                ##print(soundfile.read())
                 self._verify(_dict["username"][0],soundfile)
         except (AssertionError, KeyError):
             if (self.nerror>=3):

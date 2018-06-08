@@ -110,6 +110,9 @@ def opresult(environ, start_response, **kwargs):
             _args[param] = kwargs[param]
         except KeyError:
             _args[param] = None
+    _args["jwt"] = kwargs["id_token"].jwt
+    _args["name"] = kwargs['userinfo']['name']
+    _args["email2"] = kwargs['userinfo']['email']
 
     return resp(environ, start_response, **_args)
 
@@ -250,10 +253,13 @@ class Application(object):
             else:
                 session = {}
                 b_session['session_info'] = session
-                self.session[b_session.id] = session
+                self.session[b_session.id] = session #############################################33
 
         if path == '':
             if 'access_token' not in session:
+                ##client = self.clients.dynamic_client(userid="username@172.16.3.159:8092")
+                ##return self.init_client(client, session, query, environ,
+                ##                        start_response)
                 return opchoice(environ, start_response, self.clients)
             else:
                 client = self.clients[session["op"]]
@@ -544,7 +550,7 @@ if __name__ == '__main__':
     for _client, client_conf in six.iteritems(_conf.CLIENTS):
         if "client_registration" in client_conf:
             client_reg = client_conf["client_registration"]
-            client_reg["redirect_uris"] = [
+            client_reg[" s"] = [
                 url.format(base=_conf.BASE) for url in
                 client_reg["redirect_uris"]]
 
