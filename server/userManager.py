@@ -250,7 +250,11 @@ class UserManager(UserInfo):
             with open(FNAME, 'r+') as f:
                 DB = json.load(f)
                 if username in DB:
+                    print(DB[username])
                     del DB[username]
+                    f.seek(0)
+                    f.write(json.dumps(DB))
+                    f.truncate()
                 else:
                     raise RuntimeError("Username not found")
             f.close()

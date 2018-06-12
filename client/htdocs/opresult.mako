@@ -79,6 +79,9 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="modify_user">Update Passwords</a></li>
+            <li><a href="modify_totp">Update TOTP</a></li>
+            <li><a href="modify_biom">Update BIOM</a></li>
+            <li><a href="delete_user">Delete User</a></li>
             <li><a href="logout">Logout</a></li>
         </ul>
     </div>

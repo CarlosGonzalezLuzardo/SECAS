@@ -59,6 +59,7 @@ class BiometricEnrollment():
     def enrollVoicePrintData(self,username,utteranceText,wav):
 
         result = 0
+        print(wav)
         result = self.clientwsdl.service.EnrollVoicePrintData(username,utteranceText, wav)
         a = zeep.helpers.serialize_object(result)
 
@@ -80,6 +81,14 @@ class BiometricEnrollment():
         if (a['ResultCode'] == 0):
             return True, False, 1
         return False, False, 1
+
+    def deleteVoice(self,username):
+        result = self.clientwsdl.service.DeleteVoicePrints(username)
+
+        a = zeep.helpers.serialize_object(result)
+        if (a['ResultCode'] == 0):
+            return True
+        return False
 
     def _cancel(self):
 

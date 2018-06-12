@@ -191,8 +191,8 @@ class BiometricAuthn(UserAuthnMethod):
                 raise AssertionError(results.ResultText)
             if results.ResultCode < 0:
                 raise AssertionError(results.ResultText)
-            ##if results.ResultScore < 95:
-            ##    raise AssertionError(results.ResultText)
+            if results.ResultScore < 98:
+                raise AssertionError(results.ResultText)
 
         except wave.Error:
             raise wave.Error

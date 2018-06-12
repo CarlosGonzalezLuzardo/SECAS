@@ -54,7 +54,7 @@ class TOTPAuthn(UserAuthnMethod):
     #     self.templ_arg_func = self.template_args
 
     def __init__(self, srv, mako_template, template_lookup, get_totp_secret_key, return_to="",
-                 templ_arg_func=None, verification_endpoints=None):
+                 templ_arg_func=None, verification_endpoints=None, nerror=0):
         """
         :param srv: The server instance
         :param mako_template: Which Mako template to use
@@ -63,6 +63,7 @@ class TOTPAuthn(UserAuthnMethod):
         :return:
         """
         UserAuthnMethod.__init__(self, srv)
+        self.nerrors = nerror
         self.mako_template = mako_template
         self.template_lookup = template_lookup
         self.get_totp_secret_key = get_totp_secret_key
@@ -134,7 +135,7 @@ class TOTPAuthn(UserAuthnMethod):
         Put up the login form
         """
         resp = Response()
-
+        self.nerror = 0
         template_args = self.templ_arg_func(end_point_index, **kwargs)
 
         # mako_template_engine = self.template_lookup.get_template('totp_form.mako')
@@ -176,12 +177,16 @@ class TOTPAuthn(UserAuthnMethod):
             argv['username'] = _dict['username'][0]
             argv['acr'] = argv['form_action']
             argv['title'] = 'TOTP verification'
+
+            self.nerror = self.nerror + 1
+            if (self.nerror>=3):
+                self.nerror = 0
+                argv['wrong_value'] = 4
+
             mte = self.template_lookup.get_template('totp_form.mako')
             resp.message = mte.render(**argv).decode("utf-8")
-
             return resp, False
 
-            return resp, False
         else:
             # If I remove this header, authentication enters in a infinite loop.
             headers = [self.create_cookie(_dict["username"][0], "upm")]

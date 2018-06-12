@@ -110,9 +110,9 @@ def opresult(environ, start_response, **kwargs):
             _args[param] = kwargs[param]
         except KeyError:
             _args[param] = None
-    _args["jwt"] = kwargs["id_token"].jwt
-    _args["name"] = kwargs['userinfo']['name']
-    _args["email2"] = kwargs['userinfo']['email']
+ ##   _args["jwt"] = kwargs["id_token"].jwt
+ ##   _args["name"] = kwargs['userinfo']['name']
+ ##   _args["email2"] = kwargs['userinfo']['email']
 
     return resp(environ, start_response, **_args)
 
@@ -449,6 +449,134 @@ class Application(object):
             resp = SeeOther(str(update_url))
             return resp(environ, start_response)
 
+        elif path =="modify_totp":
+            try:
+                _iss = session['op']
+            except KeyError:
+                jlog.error(
+                    {'reason': 'No active session',
+                     'remote_addr': environ['REMOTE_ADDR']})
+                return opchoice(environ, start_response, self.clients)
+            client = self.clients[_iss]
+            try:
+                del client.authz_req[session['state']]
+            except KeyError:
+                pass
+
+            issuer= client.registration_endpoint
+            # update_url = client.registration_endpoint[:-12]
+            try:
+                # Specify to which URL the OP should return the user after
+                # log out. That URL must be registered with the OP at client
+                # registration.
+                # update_url += "?" + urlencode(
+                #     {"post_logout_redirect_uri": client.registration_response[
+                #         "post_logout_redirect_uris"][0]})
+                update_url = issuer[:issuer.rfind('/')-len(issuer)+1] + "modify_totp"
+                # update_url += "modify_user"
+            except KeyError:
+                pass
+            else:
+                # If there is an ID token send it along as a id_token_hint
+                _idtoken = get_id_token(client, session)
+                if _idtoken:
+                    update_url += "&" + urlencode({
+                        "id_token_hint": id_token_as_signed_jwt(client,
+                                                                _idtoken,
+                                                                "HS256")})
+                # Also append the ACR values
+                update_url += "&" + urlencode({"acr_values": self.acr_values},
+                                              True)
+
+           # session.delete()
+            resp = SeeOther(str(update_url))
+            return resp(environ, start_response)
+
+        elif path =="modify_biom":
+            try:
+                _iss = session['op']
+            except KeyError:
+                jlog.error(
+                    {'reason': 'No active session',
+                     'remote_addr': environ['REMOTE_ADDR']})
+                return opchoice(environ, start_response, self.clients)
+            client = self.clients[_iss]
+            try:
+                del client.authz_req[session['state']]
+            except KeyError:
+                pass
+
+            issuer= client.registration_endpoint
+            # update_url = client.registration_endpoint[:-12]
+            try:
+                # Specify to which URL the OP should return the user after
+                # log out. That URL must be registered with the OP at client
+                # registration.
+                # update_url += "?" + urlencode(
+                #     {"post_logout_redirect_uri": client.registration_response[
+                #         "post_logout_redirect_uris"][0]})
+                update_url = issuer[:issuer.rfind('/')-len(issuer)+1] + "modify_biom"
+                # update_url += "modify_user"
+            except KeyError:
+                pass
+            else:
+                # If there is an ID token send it along as a id_token_hint
+                _idtoken = get_id_token(client, session)
+                if _idtoken:
+                    update_url += "&" + urlencode({
+                        "id_token_hint": id_token_as_signed_jwt(client,
+                                                                _idtoken,
+                                                                "HS256")})
+                # Also append the ACR values
+                update_url += "&" + urlencode({"acr_values": self.acr_values},
+                                              True)
+
+           # session.delete()
+            resp = SeeOther(str(update_url))
+            return resp(environ, start_response)
+
+        elif path =="delete_user":
+            try:
+                _iss = session['op']
+            except KeyError:
+                jlog.error(
+                    {'reason': 'No active session',
+                     'remote_addr': environ['REMOTE_ADDR']})
+                return opchoice(environ, start_response, self.clients)
+            client = self.clients[_iss]
+            try:
+                del client.authz_req[session['state']]
+            except KeyError:
+                pass
+
+            issuer= client.registration_endpoint
+            # update_url = client.registration_endpoint[:-12]
+            try:
+                # Specify to which URL the OP should return the user after
+                # log out. That URL must be registered with the OP at client
+                # registration.
+                # update_url += "?" + urlencode(
+                #     {"post_logout_redirect_uri": client.registration_response[
+                #         "post_logout_redirect_uris"][0]})
+                update_url = issuer[:issuer.rfind('/')-len(issuer)+1] + "delete_user"
+                # update_url += "modify_user"
+            except KeyError:
+                pass
+            else:
+                # If there is an ID token send it along as a id_token_hint
+                _idtoken = get_id_token(client, session)
+                if _idtoken:
+                    update_url += "&" + urlencode({
+                        "id_token_hint": id_token_as_signed_jwt(client,
+                                                                _idtoken,
+                                                                "HS256")})
+                # Also append the ACR values
+                update_url += "&" + urlencode({"acr_values": self.acr_values},
+                                              True)
+
+           # session.delete()
+            resp = SeeOther(str(update_url))
+            return resp(environ, start_response)
 # -------------------------------------------------------------------------------
 
         elif path == "logout":  # After the user has pressed the logout button
