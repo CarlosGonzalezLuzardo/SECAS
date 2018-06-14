@@ -185,6 +185,100 @@ def test(environ, start_response):
     return resp(environ, start_response)
 
 
+def delete(environ, start_response):
+    resp = Response("OK3")
+    ##username = self.username
+    if 'HTTP_COOKIE' in environ:
+        cookie = SimpleCookie(environ['HTTP_COOKIE'])
+        if 'username' in cookie:
+            # handle the cookie value
+            username = cookie['username'].value
+
+    template_args = {
+        'title': 'Delete User',
+        'password_title': 'Password: ',
+        'newpassword_title': 'Confirm password: ',
+        'submit_text': 'Submit',
+        'wrong_value': 0,
+        'url': "http://localhost:8666"
+    }
+    if (environ['REQUEST_METHOD'] == 'GET'):
+        mako_template = LOOKUP.get_template('delete.mako')
+        resp.message = mako_template.render(**template_args).decode('utf-8')
+
+    elif (environ['REQUEST_METHOD'] == 'POST'):
+        registration_info = urllib_parse_qs(environ['wsgi.input'].read().decode('utf-8'), True)
+        resp = SeeOther("http://localhost:8666/logout")
+        username = username = cookie['username'].value
+        password = registration_info['password'][0]
+        confpassword = registration_info['confpassword'][0]
+        template_args['url'] = registration_info['url'][0]
+
+        if UserManager.verify_match(username, password):
+            result = UserManager._delete_user(username)
+            if result:
+                userData = [username, 'English', 'Mixed', 'my voice is my password']
+                biom = BiometricEnrollment(userData)
+                result = biom.deleteVoice('SECAS_' + str(cookie['username'].value))
+        else:
+            resp = BadRequest("Username/password mismatch")
+            template_args['wrong_value'] = 3
+            resp = Response("OK")
+            mako_template = LOOKUP.get_template('delete.mako')
+            resp.message = mako_template.render(**template_args).decode('utf-8')
+
+    return resp(environ, start_response)
+
+
+
+def modifier_totp(environ, start_response):
+    resp = Response("OK3")
+
+    if (environ['REQUEST_METHOD'] == 'GET'):
+        """
+                Update the TOTP secret
+                """
+        if 'HTTP_COOKIE' in environ:
+            cookie = SimpleCookie(environ['HTTP_COOKIE'])
+            if 'username' in cookie:
+                # handle the cookie value
+                username = cookie['username'].value
+
+        try:
+            totp_secret = UserManager._reset_totp(username)
+
+            otpauth_link = 'otpauth://totp/%s?secret=%s' % (username, totp_secret)
+            qr_code = pyqrcode.create(otpauth_link)
+
+            template_args = {
+                'username': username,
+                'totp_secret': totp_secret,
+                'qr_blob': qr_code.png_as_base64_str(scale=5),
+                'home_url': environ['HTTP_REFERER'],
+            }
+
+            mako_template = LOOKUP.get_template('modify_totp.mako')
+            resp.message = mako_template.render(**template_args)
+        except RuntimeError:
+            resp = BadRequest("Username not found")
+
+
+       ## mako_template = LOOKUP.get_template('modify_pwd.mako')
+       ## resp.message = mako_template.render(**template_args).decode('utf-8')
+    elif (environ['REQUEST_METHOD'] == 'POST'):
+        registration_info = urllib_parse_qs(environ['wsgi.input'].read().decode('utf-8'), True)
+
+        username = registration_info['username'][0]
+        password = registration_info['password'][0]
+        newpassword = registration_info['newpassword'][0]
+
+        if newpassword != '':
+            resp = Modifier_module.modify_password(username, password, newpassword)
+        else:
+            resp = Modifier_module.modify_totp(username, password)
+
+    return resp(environ, start_response)
+
 def modifier(environ, start_response):
     resp = Response("OK3")
     ##username = self.username
@@ -242,7 +336,6 @@ def pwd_recovery(environ, start_response):
         'username_used': 'username_used',
         'submit_text': 'Submit',
         'url': environ['HTTP_REFERER']
-
     }
 
     if (environ['REQUEST_METHOD'] == 'GET'):
@@ -561,8 +654,8 @@ def voiceRegistration(environ, start_response):
             username_used1 = True
 
             #################
-            result = biom.enrollVoicePrintBegin('SECAS_' + str(cookie['username'].value), cookie['channel'].value,
-                                                cookie['type'].value)
+            ##result = biom.enrollVoicePrintBegin('SECAS_' + str(cookie['username'].value), cookie['channel'].value,
+            ##                                    cookie['type'].value)
             ###################
         else:
             username_used1 = False
@@ -609,11 +702,12 @@ def voiceRegistration(environ, start_response):
             with open('audiofile.wav', 'wb') as f:
                 soundfile = f.write(data)
             with open('audiofile.wav', 'rb') as soundfile:
-                print(soundfile.read())
+                ##print(soundfile.read())
                 # num_frames = soundfile.getnframes()
                 # str_data = soundfile.readframes(num_frames)
                 # soundfile.close()
-                result = biom.enrollVoicePrintData('SECAS_' + str(cookie['username'].value), utterText,soundfile.read())
+                result = biom.enrollVoicePrintData('SECAS_' + str(cookie['username'].value), utterText,
+                                                   soundfile.read())
         except:
             raise
 
@@ -644,6 +738,157 @@ def voiceRegistration(environ, start_response):
             template_args["nalert"] = 0
         elif ((result[0] == True) and (result[1] == True)):
             template_args['nsuccess'] = 3
+            mako_template = LOOKUP.get_template('biom_enroll.mako')
+            resp.message = mako_template.render(**template_args).decode("utf-8")
+            resp.headers = headers
+            if 'HTTP_COOKIE' in environ:
+                cookie = SimpleCookie(environ['HTTP_COOKIE'])
+                if 'username' in cookie:
+                    # handle the cookie value
+                    username = cookie['username'].value
+                    utterText = 'my voice is my password'
+                    cookie['status'] = 'ok'
+                    cookieheaders = ('Set-Cookie', cookie['status'].OutputString())
+                    headers = [cookieheaders, ('content-type', 'text/html')]
+        else:
+            ################
+            # Cookie break #
+            if 'HTTP_COOKIE' in environ:
+                cookie = SimpleCookie(environ['HTTP_COOKIE'])
+                if 'username' in cookie:
+                    # handle the cookie value
+                    username = cookie['username'].value
+                    utterText = 'my voice is my password'
+                    cookie['status'] = 'ok'
+                    cookieheaders = ('Set-Cookie', cookie['status'].OutputString())
+                    headers = [cookieheaders, ('content-type', 'text/html')]
+        #################
+
+    return resp(environ, start_response)
+
+
+def voiceUpdate(environ, start_response):
+    resp = Response("Voice files added succesfully")
+    result = False, False
+    if 'HTTP_COOKIE' in environ:
+        cookie = SimpleCookie(environ['HTTP_COOKIE'])
+        if 'username' in cookie:
+            # handle the cookie value
+            username = cookie['username'].value
+
+    template_args = {
+        "title": "Biometric registration",
+        "file_label": "Voiceprint recording:",
+        "button_label": "Submit voiceprint (Check before submit it):",
+        "username": username,
+        "submit_text": "Submit",
+        "action": environ['REQUEST_URI'],
+        "nsuccess": 0,
+        "nfailures": 0,
+        "nalert": 0
+    }
+    userData = [template_args['username'], 'English', 'Mixed', 'my voice is my password']
+    # GET should start the enrollment method
+    if (environ['REQUEST_METHOD'] == 'GET'):
+        biom = BiometricEnrollment(userData)
+
+        ################
+        # Cookie break #
+        cookie = SimpleCookie()
+        cookie['username'] = template_args['username']
+        cookie['channel'] = 'English'
+        cookie['type'] = 'Mixed'
+        cookie['utterText'] = 'my voice is my password'
+        cookieheaders = ('Set-Cookie', cookie['username'].OutputString())
+        headers = [cookieheaders, ('content-type', 'text/html')]
+        # add headers without triggering start_response
+        resp.headers = headers
+        #################
+
+        template_args['nfailures'] = 0
+        mako_template = LOOKUP.get_template('biom_enroll.mako')
+        resp.message = mako_template.render(**template_args).decode("utf-8")
+        resp.headers = headers
+        username_used1 = True
+
+        result = biom.enrollVoicePrintBegin('SECAS_' + str(cookie['username'].value), cookie['channel'].value,
+                                                cookie['type'].value)
+
+
+            # POST should keep going the enrollment method until
+    # either the voiceprint is rejected or validated
+    if (environ['REQUEST_METHOD'] == 'POST'):
+
+        registration_info = urllib_parse_qs(environ['wsgi.input'].read().decode('utf-8'))
+        nsuccess = int(registration_info['nsuccess'][0])
+        nfailures = int(registration_info['nfailures'][0])
+        orig_pkg = registration_info['thefile2'][0]
+
+        biom = BiometricEnrollment(userData, nsuccess, nfailures)
+
+        ################
+        # Cookie break #
+        if 'HTTP_COOKIE' in environ:
+            cookie = SimpleCookie(environ['HTTP_COOKIE'])
+            if 'username' in cookie:
+                # handle the cookie value
+                username = cookie['username'].value
+                utterText = 'my voice is my password'
+
+                cookie['status'] = 'unfinished'
+                cookieheaders = ('Set-Cookie', cookie['status'].OutputString())
+                headers = [cookieheaders, ('content-type', 'text/html')]
+        #################
+
+        # wav=pickupVoicePrint()
+        # orig_pkg = _dict["thefile"][0]
+        orig_audio = base64.b64decode(orig_pkg)
+        print(orig_audio)
+        head, data = orig_audio.decode('ascii').split(',')
+        print(data)
+        data = base64.b64decode(data)
+        print(data)
+        # Verify Biometric Authentication
+        try:
+            # Do verification
+            with open('audiofile.wav', 'wb') as f:
+                soundfile = f.write(data)
+            with open('audiofile.wav', 'rb') as soundfile:
+                ##print(soundfile.read())
+                # num_frames = soundfile.getnframes()
+                # str_data = soundfile.readframes(num_frames)
+                # soundfile.close()
+                result = biom.enrollVoicePrintData('SECAS_' + str(cookie['username'].value), utterText,
+                                                   soundfile.read())
+        except:
+            raise
+
+        if (result[0] == True):
+            template_args["nsuccess"] = nsuccess + 1
+            template_args["nfailures"] = nfailures
+            template_args["nalert"] = 0
+
+        else:
+            template_args["nfailures"] = nfailures + 1
+            template_args["nsuccess"] = nsuccess
+            template_args["nalert"] = 1
+
+        if ((result[0] == False) and (result[1] == False)):
+            mako_template = LOOKUP.get_template('biom_enroll.mako')
+            resp.message = mako_template.render(**template_args).decode("utf-8")
+            resp.headers = headers
+        elif ((result[0] == True) and (result[1] == False)):
+            mako_template = LOOKUP.get_template('biom_enroll.mako')
+            resp.message = mako_template.render(**template_args).decode("utf-8")
+            resp.headers = headers
+        elif ((result[0] == False) and (result[1] == True)):
+            mako_template = LOOKUP.get_template('biom_enroll.mako')
+            resp.message = mako_template.render(**template_args).decode("utf-8")
+            resp.headers = headers
+            template_args['nfailures'] = 3
+            template_args["nalert"] = 0
+        elif ((result[0] == True) and (result[1] == True)):
+            template_args['nsuccess'] = 4
             mako_template = LOOKUP.get_template('biom_enroll.mako')
             resp.message = mako_template.render(**template_args).decode("utf-8")
             resp.headers = headers
@@ -730,6 +975,9 @@ class Application(object):
             (r'^register_user', register_user),
             (r'^recover_user', pwd_recovery),
             (r'^modify_user', modifier),
+            (r'^modify_totp', modifier_totp),
+            (r'^modify_biom', voiceUpdate),
+            (r'^delete_user', delete),
             (r'^test', test)
         ])
 

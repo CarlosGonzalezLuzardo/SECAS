@@ -44,6 +44,14 @@
             alert("Wrong Password");
             ##window.location.href = document.getElementById('url').value;
         }
+        if(wrong_value.value == 4){
+            ##alert("Wrong TOTP");
+            wrong_code.innerHTML = "Wrong code<br><br>";
+            document.getElementById("totp").style.borderColor = "red";
+            window.location.href = document.getElementById('url').value;
+            alert("TOTP Authentication Failed");
+            ##window.location.href = document.getElementById('acr').value;
+        }
     }
 
     var check_totp = function(){

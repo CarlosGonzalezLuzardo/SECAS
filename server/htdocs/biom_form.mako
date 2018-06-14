@@ -106,8 +106,9 @@
         <script src="/static/main.js"></script>
     </div>
     <div class="col-md-4 col-md-offset-4 login_form top_form" class="block">
-        <p>You must introduce a different file than others you have already added</p>
-        <p>${file_label}</p>
+
+        <p>You must record the next text:</p>
+        <p><b><i>My voice is my password</i></b></p>
         <p>
             <button type="button" class="btn btn-success" id="start-btn"><span class="glyphicon glyphicon-record"></span> Start recording</button>
             <button type="button" class="btn btn-danger" id="stop-btn" ><span class="glyphicon glyphicon-stop"></span> Stop recording</button>

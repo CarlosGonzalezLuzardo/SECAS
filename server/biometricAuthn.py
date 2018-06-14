@@ -254,7 +254,7 @@ class BiometricAuthn(UserAuthnMethod):
                 argv['form_action'] = kwargs["baseurl"] + "/biom_login"
                 argv['username'] = _dict['username'][0]
                 argv['acr'] = argv['form_action']
-                argv['title'] = 'TOTP verification'
+                argv['title'] = 'Biometric verification'
                 argv['recover_uri'] = "recover_user"
                 argv['register_uri'] = "register_user"
                 mte = self.template_lookup.get_template('biom_form.mako')
@@ -271,7 +271,7 @@ class BiometricAuthn(UserAuthnMethod):
                 argv['form_action'] = kwargs["baseurl"] + "/biom_login"
                 argv['username'] = _dict['username'][0]
                 argv['acr'] = argv['form_action']
-                argv['title'] = 'TOTP verification'
+                argv['title'] = 'Biometric verification'
                 argv['recover_uri'] = "recover_user"
                 argv['register_uri'] = "register_user"
                 mte = self.template_lookup.get_template('biom_form.mako')

@@ -306,6 +306,10 @@
         alert("Archivos subidos correctamente");
         window.close();
     }
+    if(success.value == 4){
+        alert("Archivos subidos correctamente");
+        window.location = "http://localhost:8666";
+    }
     if(alert_aux.value == 1){
         alert("Bad audio file, please retry");
     }
